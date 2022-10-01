@@ -24,88 +24,95 @@ import Avatar from '../assets/images/avatar1.jpg';
 // create a component
 const Login = ({navigation}) => {
   const windowHeight = useWindowDimensions().height;
-  const [nicNo, setNicNo] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [contactNo, setContactNo] = React.useState('');
+  const [nicNo, setNicNo] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [contactNo, setContactNo] = useState('');
+
+  const [isValid, setIsValid] = useState(true);
+
+  const [title, setTitle] = useState('Login');
+  const [btn1Label, setBtn1Label] = useState(title);
+  const [btn2Label, setBtn2Label] = useState('Register');
+  const [subText, setSubText] = useState('Not a Member?');
+  const [isVisible, setIsVisible] = useState(false);
+
   return (
     <NativeBaseProvider>
       <View style={[{minHeight: Math.round(windowHeight)}]}>
+        {/* Avatar */}
         <View style={styles.avatar_container}>
           <Image style={styles.avatar} source={Avatar} />
         </View>
+
+        {/* Label */}
         <View style={styles.label_container}>
-          <Text style={styles.label}>Login</Text>
+          <Text style={styles.label}>{title}</Text>
         </View>
-        {/* <View > */}
-        <VStack space={4} style={styles.input_container}>
-          {/* <Input
-            variant="outline"
-            placeholder="NIC No"
-            placeholderTextColor="#95a5a6"
-            size="md"
-            w="80%"
-            color="black"
-            value={nicNo}
-            onChangeText={e => {
-              setNicNo(e);
-            }}
-          /> */}
-          <FormControl isInvalid w="75%" maxW="300px">
-            <Input placeholder="NIC No" />
-            <FormControl.ErrorMessage>Invalid NIC No</FormControl.ErrorMessage>
+
+        {/* Inputs */}
+        <VStack
+          space={title == 'Register' ? 4 : 7}
+          style={styles.input_container}>
+          {isVisible && (
+            <FormControl isInvalid={!isValid} w="80%" maxW="300px">
+              <Input placeholder="NIC No" />
+              <FormControl.ErrorMessage>
+                Invalid NIC No
+              </FormControl.ErrorMessage>
+            </FormControl>
+          )}
+          <FormControl isInvalid={!isValid} w="80%" maxW="300px">
+            <Input placeholder="Email" />
+            <FormControl.ErrorMessage>Invalid Email</FormControl.ErrorMessage>
           </FormControl>
-          <Input
-            variant="outline"
-            placeholder="Email"
-            placeholderTextColor="#95a5a6"
-            size="md"
-            w="80%"
-            color="black"
-            value={email}
-            onChangeText={e => {
-              setEmail(e);
-            }}
-          />
-          <Input
-            variant="outline"
-            placeholder="Password"
-            placeholderTextColor="#95a5a6"
-            size="md"
-            w="80%"
-            color="black"
-            value={password}
-            onChangeText={e => {
-              setPassword(e);
-            }}
-          />
-          <Input
-            variant="outline"
-            placeholder="Contact No"
-            placeholderTextColor="#95a5a6"
-            size="md"
-            w="80%"
-            color="black"
-            value={contactNo}
-            onChangeText={e => {
-              setContactNo(e);
-            }}
-          />
+          <FormControl isInvalid={!isValid} w="80%" maxW="300px">
+            <Input placeholder="Password" type="password" />
+            <FormControl.ErrorMessage>
+              Must have atleast 8 charaters, use only letters and numbers
+            </FormControl.ErrorMessage>
+          </FormControl>
+          {isVisible && (
+            <FormControl isInvalid={!isValid} w="80%" maxW="300px">
+              <Input placeholder="Contact No" />
+              <FormControl.ErrorMessage>
+                Invalid EContact
+              </FormControl.ErrorMessage>
+            </FormControl>
+          )}
         </VStack>
-        {/* </View> */}
+
+        {/* Buttons */}
         <View style={styles.btn_container}>
           <TouchableOpacity
-            style={styles.btn}
-            // onPress={() => {
-            //   navigation.navigate('HomeScreen');
-            // }}
-          >
-            <Text style={styles.btn_label}>Register</Text>
+            style={styles.btn_register}
+            onPress={() => {
+              navigation.navigate('HomeScreen');
+            }}>
+            <Text style={styles.btn_label}>{btn1Label}</Text>
           </TouchableOpacity>
-          <Button size="sm" variant="outline" colorScheme="secondary">
-            Login
+          <Text style={styles.sub_text}>{subText}</Text>
+          <Button
+            size="sm"
+            variant="ghost"
+            colorScheme="secondary"
+            onPress={() => {
+              if (title === 'Login') {
+                setTitle('Register');
+                setBtn1Label('Register');
+                setSubText('Already Registered?');
+                setBtn2Label('Login');
+                setIsVisible(true);
+              } else if (title === 'Register') {
+                setTitle('Login');
+                setBtn1Label('Login');
+                setSubText('Not a Member?');
+                setBtn2Label('Register');
+                setIsVisible(false);
+              }
+            }}>
+            {btn2Label}
           </Button>
-          <Text style={styles.sub_text}>Already Registered?</Text>
         </View>
       </View>
     </NativeBaseProvider>
@@ -115,35 +122,24 @@ const Login = ({navigation}) => {
 // define your styles
 const styles = StyleSheet.create({
   main_container: {
-    // borderWidth: 1,
-    // borderColor: 'red',
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#2c3e50',
   },
 
   avatar_container: {
-    // borderWidth: 1,
-    // borderColor: 'red',
     // backgroundColor: 'blue',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 20,
-    // marginBottom: 10,
-    flex: 2,
+    marginTop: 10,
+    flex: 1.5,
   },
 
   avatar: {
     borderRadius: 50,
     width: 100,
     height: 100,
-    // marginBottom: 10,
   },
 
   label_container: {
-    // borderWidth: 1,
-    // borderColor: 'red',
     // backgroundColor: 'yellow',
     flex: 0.6,
     justifyContent: 'center',
@@ -156,11 +152,9 @@ const styles = StyleSheet.create({
   },
 
   input_container: {
-    // borderWidth: 1,
-    // borderColor: 'blue',
     // backgroundColor: 'red',
     color: 'black',
-    flex: 3,
+    flex: 3.8,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -175,21 +169,18 @@ const styles = StyleSheet.create({
   },
 
   btn_container: {
-    // borderWidth: 1,
-    // borderColor: 'green',
     // backgroundColor: 'green',
     flex: 2,
-    // marginTop: 10,
-    // justifyContent: 'center',
     alignItems: 'center',
   },
 
-  btn: {
+  btn_register: {
     width: '80%',
     padding: 10,
     borderRadius: 10,
     backgroundColor: '#B53471',
     alignItems: 'center',
+    marginBottom: 10,
   },
 
   btn_label: {
@@ -207,84 +198,3 @@ const styles = StyleSheet.create({
 
 //make this component available to the app
 export default Login;
-
-{
-  /* <Text style={{color: 'black'}}>Login</Text>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => {
-            navigation.navigate('HomeScreen');
-          }}>
-          <Text style={{fontSize: 20}}>Login</Text>
-        </TouchableOpacity>
-        <Button size="sm" variant="outline" colorScheme="secondary">
-          SECONDARY
-        </Button> */
-}
-
-/* 
-<View
-        style={[{minHeight: Math.round(windowHeight)}]}>
-        <View style={styles.avatar_container}>
-          <Image style={styles.avatar} source={Avatar} />
-        </View>
-
-        <View style={styles.label_container}>
-          <Text style={styles.label}>Login</Text>
-        </View>
-
-        <View style={styles.input_container}>
-          <TextInput
-            style={styles.input}
-            value={nicNo}
-            onChangeText={nic => {
-              setNicNo(nic);
-            }}
-            placeholder="NIC No"
-            placeholderTextColor="#95a5a6"
-          />
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={email => {
-              setEmail(email);
-            }}
-            placeholder="Email"
-            placeholderTextColor="#95a5a6"
-          />
-          <TextInput
-            style={styles.input}
-            value={password}
-            onChangeText={pwd => {
-              setPassword(pwd);
-            }}
-            secureTextEntry={true}
-            placeholder="Password"
-            placeholderTextColor="#95a5a6"
-          />
-          <TextInput
-            style={styles.input}
-            value={contactNo}
-            onChangeText={contact => {
-              setContactNo(contact);
-            }}
-            placeholder="Contact No"
-            placeholderTextColor="#95a5a6"
-          />
-        </View>
-        <View style={styles.btn_container}>
-          <TouchableOpacity
-            style={styles.btn}
-            // onPress={() => {
-            //   navigation.navigate('HomeScreen');
-            // }}
-          >
-            <Text style={styles.btn_label}>Register</Text>
-          </TouchableOpacity>
-          <Text style={styles.sub_text}>Already Registered?</Text>
-          <Button size="sm" variant="outline" colorScheme="secondary">
-            Login
-          </Button>
-        </View>
-      </View>
-*/
