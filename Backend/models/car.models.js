@@ -15,7 +15,7 @@ const carSchema = new mongoose.Schema({
   },
 
   details: {
-    type: Text,
+    type: String,
     required: true,
   },
 });

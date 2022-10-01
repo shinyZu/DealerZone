@@ -9,7 +9,10 @@ connection.establishConnection; // invoke the method to establish connection wit
 const baseURL = "/dealer_zone/api/v1/";
 
 const user = require("./routes/user");
+const car = require("./routes/car");
+
 app.use(`${baseURL}user`, user);
+app.use(`${baseURL}car`, car);
 
 app.get("/", (req, res) => {
   console.log(req);
