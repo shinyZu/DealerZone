@@ -5,8 +5,8 @@ import 'react-native-gesture-handler';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {View, Text, StyleSheet} from 'react-native';
-import {AddIcon, AntDesign} from 'native-base';
-import Icon from 'react-native-vector-icons/Ionicons';
+// import {AddIcon, AntDesign} from 'native-base';
+// import Icon from 'react-native-vector-icons/Ionicons';
 
 // imports all screens
 import Login from './screens/Login';
@@ -29,27 +29,27 @@ function HomeTabs() {
         tabBarIndicatorStyle: {
           backgroundColor: '#f8a5c2',
         },
-        tabBarShowIcon: true,
+        // tabBarShowIcon: true,
       }}>
       <Tab.Screen
         name="Home"
         component={Dashboard}
         // options={{tabBarLabel: 'Dashboard'}}
-        options={{
-          tabBarIcon: () => {
-            <Icon name="add-circle-outline" color="#fff" />;
-          },
-        }}
+        // options={{
+        //   tabBarIcon: () => {
+        //     <Icon name="add-circle-outline" color="#fff" />;
+        //   },
+        // }}
       />
       <Tab.Screen
         name="Add"
         component={AddCarDetails}
-        options={{
-          tabBarShowIcon: true,
-          // tabBarIcon: ({tintColor}) => (
-          //   <Icon name="down" /* size={30} */ color="#fff" />
-          // ),
-        }}
+        // options={{
+        // tabBarShowIcon: true,
+        // tabBarIcon: ({tintColor}) => (
+        //   <Icon name="down" /* size={30} */ color="#fff" />
+        // ),
+        // }}
       />
       <Tab.Screen name="Cars" component={Cars} />
       <Tab.Screen name="Manage" component={ManageCar} />
