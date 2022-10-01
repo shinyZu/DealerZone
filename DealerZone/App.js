@@ -1,117 +1,100 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+//import liraries
+import React, {Component, useState} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import 'react-native-gesture-handler';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {View, Text, StyleSheet} from 'react-native';
+import {AddIcon, AntDesign} from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+// imports all screens
+import Login from './screens/Login';
+import Dashboard from './screens/Dashboard';
+import AddCarDetails from './screens/AddCarDetails';
+import Cars from './screens/Cars';
+import ManageCar from './screens/ManageCar';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createStackNavigator();
+const Tab = createMaterialTopTabNavigator();
 
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+// Icon.loadFont();
+function HomeTabs() {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
+    <Tab.Navigator
+      // headderMode="float"
+      screenOptions={{
+        tabBarLabelStyle: {color: '#fff', fontSize: 9},
+        tabBarStyle: {backgroundColor: '#6D214F'},
+        tabBarIndicatorStyle: {
+          backgroundColor: '#f8a5c2',
+        },
+        tabBarShowIcon: true,
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={Dashboard}
+        // options={{tabBarLabel: 'Dashboard'}}
+        options={{
+          tabBarIcon: () => {
+            <Icon name="add-circle-outline" color="#fff" />;
           },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+        }}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <Tab.Screen
+        name="Add"
+        component={AddCarDetails}
+        options={{
+          tabBarShowIcon: true,
+          // tabBarIcon: ({tintColor}) => (
+          //   <Icon name="down" /* size={30} */ color="#fff" />
+          // ),
+        }}
+      />
+      <Tab.Screen name="Cars" component={Cars} />
+      <Tab.Screen name="Manage" component={ManageCar} />
+      <Tab.Screen name="Logout" component={Dashboard} />
+    </Tab.Navigator>
+  );
+}
+
+// create a component
+const App = () => {
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [display, setDisplay] = useState('block');
+
+  const loginUser = () => {
+    // setisLoggedIn(true);
+    // setDisplay('none');
+    console.log('Logged In......');
+  };
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        // initialRouteName="Welcome"
+        headderMode="float"
+        screenOptions={{
+          title: "Welcome To Dealer's Zone",
+          headerStyle: {backgroundColor: '#B53471'},
+          headerTintColor: '#fff',
+        }}>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="HomeScreen" component={HomeTabs} />
+        {/* {isLoggedIn && <Stack.Screen name="Home" component={HomeTabs} />} */}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
+// define your styles
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: '#2c3e50',
   },
 });
 
+//make this component available to the app
 export default App;
