@@ -4,12 +4,18 @@
   "description": "a mobile application for car dealers to store car details",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "nodemon": "nodemon app.js",
+    "stop": "npx kill-port 4000"
   },
   "author": "shinyZu",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.1",
-    "nodemon": "^2.0.20"
+    "mongodb": "^4.10.0",
+    "mongoose": "^6.6.3",
+    "nodemon": "^2.0.20",
+    "validator": "^13.7.0"
   }
 }
