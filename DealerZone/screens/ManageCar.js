@@ -1,13 +1,18 @@
 //import liraries
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {useWindowDimensions, StyleSheet, View} from 'react-native';
+import {NativeBaseProvider} from 'native-base';
+import CarForm from '../components/CarForm';
 
 // create a component
-const ManageCar = () => {
+const ManageCar = ({navigation, route}) => {
+  const windowHeight = useWindowDimensions().height;
   return (
-    <View style={styles.container}>
-      <Text>ManageCar</Text>
-    </View>
+    <NativeBaseProvider>
+      <View style={[{minHeight: Math.round(windowHeight)}]}>
+        <CarForm btnTitle="Update" /*  data={route.params.obj} */ />
+      </View>
+    </NativeBaseProvider>
   );
 };
 
@@ -17,7 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2c3e50',
+    // backgroundColor: '#2c3e50',
   },
 });
 

@@ -52,7 +52,8 @@ const Login = ({navigation}) => {
 
         {/* Inputs */}
         <VStack
-          space={title == 'Register' ? 4 : 7}
+          space={title == 'Register' ? 4 : 8}
+          mt={title == 'Register' ? 0 : -20}
           style={styles.input_container}>
           {isVisible && (
             <FormControl isInvalid={!isValid} w="80%" maxW="300px">
@@ -76,7 +77,7 @@ const Login = ({navigation}) => {
             <FormControl isInvalid={!isValid} w="80%" maxW="300px">
               <Input placeholder="Contact No" />
               <FormControl.ErrorMessage>
-                Invalid EContact
+                Invalid Contact
               </FormControl.ErrorMessage>
             </FormControl>
           )}
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
+    // marginTop: 10,
     flex: 1.5,
   },
 
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
 
   label_container: {
     // backgroundColor: 'yellow',
-    flex: 0.6,
+    flex: 0.8,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
   input_container: {
     // backgroundColor: 'red',
     color: 'black',
-    flex: 3.8,
+    flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },

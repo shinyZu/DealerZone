@@ -10,7 +10,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 // imports all screens
 import Login from './screens/Login';
-import Dashboard from './screens/Dashboard';
+import Home from './screens/Home';
 import AddCarDetails from './screens/AddCarDetails';
 import Cars from './screens/Cars';
 import ManageCar from './screens/ManageCar';
@@ -19,7 +19,7 @@ const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 // Icon.loadFont();
-function HomeTabs() {
+const HomeTabs = ({navigation}) => {
   return (
     <Tab.Navigator
       // headderMode="float"
@@ -33,8 +33,8 @@ function HomeTabs() {
       }}>
       <Tab.Screen
         name="Home"
-        component={Dashboard}
-        // options={{tabBarLabel: 'Dashboard'}}
+        component={Home}
+        // options={{tabBarLabel: 'Home'}}
         // options={{
         //   tabBarIcon: () => {
         //     <Icon name="add-circle-outline" color="#fff" />;
@@ -53,25 +53,26 @@ function HomeTabs() {
       />
       <Tab.Screen name="Cars" component={Cars} />
       <Tab.Screen name="Manage" component={ManageCar} />
-      <Tab.Screen name="Logout" component={Dashboard} />
+      <Tab.Screen
+        name="Logout"
+        component={Login}
+        listeners={{
+          tabPress: e => {
+            // Prevent default action
+            e.preventDefault();
+            navigation.navigate('Login');
+          },
+        }}
+      />
     </Tab.Navigator>
   );
-}
+};
 
 // create a component
-const App = () => {
-  const [isLoggedIn, setisLoggedIn] = useState(false);
-  const [display, setDisplay] = useState('block');
-
-  const loginUser = () => {
-    // setisLoggedIn(true);
-    // setDisplay('none');
-    console.log('Logged In......');
-  };
+const App = ({navigation}) => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="Welcome"
         headderMode="float"
         screenOptions={{
           title: "Welcome To Dealer's Zone",
@@ -80,7 +81,6 @@ const App = () => {
         }}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="HomeScreen" component={HomeTabs} />
-        {/* {isLoggedIn && <Stack.Screen name="Home" component={HomeTabs} />} */}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#2c3e50',
   },
 });
 
