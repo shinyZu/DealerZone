@@ -22,16 +22,18 @@ const Cars = ({navigation}) => {
           renderItem={({item}) => (
             <TouchableOpacity
               style={{
-                // borderWidth: 1,
+                borderWidth: 1,
+                borderRadius: 5,
                 marginBottom: '5%',
                 padding: 5,
-                shadowColor: 'rgb(0, 0, 0)',
+                // shadowColor: 'rgb(0, 0, 0)',
+                // shadowColor: '#fff',
                 shadowOffset: {
-                  width: 3,
-                  height: 3,
+                  width: 5,
+                  height: 5,
                 },
-                // shadowOpacity: 0.8,
-                // shadowRadius: 15,
+                shadowOpacity: 0.8,
+                shadowRadius: 15,
                 elevation: 2,
               }}
               onPress={() => {
@@ -41,10 +43,10 @@ const Cars = ({navigation}) => {
                 <View style={styles.card_img}>
                   <Center>
                     <Image
-                      style={{backgroundColor: 'pink'}}
+                      style={{borderRadius: 10}}
                       source={img}
                       alt="car"
-                      size="xl"
+                      size="lg"
                     />
                   </Center>
                 </View>
@@ -55,7 +57,8 @@ const Cars = ({navigation}) => {
                       style={{
                         marginBottom: 10,
                         fontWeight: 'bold',
-                        color: '#B53471',
+                        color: '#fff',
+                        fontSize: 20,
                       }}>
                       {item.reg_no}
                     </Text>
@@ -78,12 +81,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
+    backgroundColor: '#1e272e',
   },
   card_container: {
     flexDirection: 'row',
+    padding: 8,
   },
   card_img: {
-    backgroundColor: 'pink',
+    // backgroundColor: 'pink',
     marginRight: 20,
   },
   text_container: {
@@ -95,7 +100,7 @@ const styles = StyleSheet.create({
   },
   card_brand: {
     // backgroundColor: 'green',
-    color: 'black',
+    color: '#d2dae2',
   },
 });
 

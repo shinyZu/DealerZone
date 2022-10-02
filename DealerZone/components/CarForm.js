@@ -14,6 +14,7 @@ import {
   Circle,
   Image,
   Input,
+  IconButton,
 } from 'native-base';
 
 import {MaterialIcons} from 'react-native-vector-icons';
@@ -24,43 +25,66 @@ import image from '../assets/images/car.png';
 // create a component
 const CarForm = props => {
   const windowHeight = useWindowDimensions().height;
-  const [regNo, setRegNo] = useState('');
+  const [regNo, setRegNo] = useState('TT-5951');
   const [img, setImg] = useState(image);
-  const [details, setDetails] = useState('');
+  const [details, setDetails] = useState('ASASAS');
 
   useEffect(() => {
-    if (props.title === 'Update') {
+    if (props.btnTitle === 'Update') {
       const data = props.data;
-      setRegNo(data.regNo);
+      setRegNo(data.reg_no);
       setDetails(data.details);
+      console.log(regNo);
+      console.log(details);
     }
   });
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
         <View style={styles.regNo_container}>
-          <Input
-            style={styles.regNo_container}
-            variant="filled"
-            placeholder="Registration No"
-            size="sm"
-            textAlign="center"
-          />
+          {props.btnTitle === 'Update' ? (
+            <Input
+              style={styles.regNo_container}
+              variant="filled"
+              placeholder={props.btnTitle === 'Update' ? regNo : ''}
+              placeholderTextColor="#fff"
+              size="xl"
+              textAlign="center"
+              backgroundColor="#1e272e"
+              borderWidth="0"
+              color="#fff"
+              //   _readOnly={true}
+              //   editable={false}
+            />
+          ) : (
+            <Input
+              style={styles.regNo_container}
+              variant="filled"
+              placeholder="Enter Reg No"
+              placeholderTextColor="#ccc"
+              size="xl"
+              textAlign="center"
+              backgroundColor="#1e272e"
+              borderWidth="0"
+              color="#fff"
+            />
+          )}
         </View>
         <View style={styles.img_container}>
           {/* <Center> */}
-          <Image
-            style={{backgroundColor: 'pink'}}
-            source={img}
-            alt="car"
-            size="2xl"
-          />
+          <Image style={{borderRadius: 10}} source={img} alt="car" size="2xl" />
           {/* </Center> */}
         </View>
 
         <View style={styles.detail_container}>
-          <TextArea h={40} placeholder="Enter Details" w="72%" maxW="300">
-            {details}
+          <TextArea
+            h={40}
+            placeholder="Enter Details"
+            placeholderTextColor="#ccc"
+            w="72%"
+            maxW="300"
+            color="#fff">
+            {props.btnTitle === 'Update' ? details : ''}
           </TextArea>
         </View>
 
@@ -91,7 +115,16 @@ const CarForm = props => {
           <View style={styles.btn_container_save}>
             <TouchableOpacity style={styles.btn}>
               <Text style={styles.btn_label}>{props.btnTitle}</Text>
-              {/* <Icon name="rowing" /> */}
+
+              {/* <IconButton
+              size="xs"
+              color="black"
+              variant="outline"
+              _icon={{
+                as: MaterialIcons,
+                name: 'add',
+              }}
+            /> */}
             </TouchableOpacity>
           </View>
         )}
@@ -107,6 +140,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#1e272e',
   },
   regNo_container: {
     // backgroundColor: 'blue',
@@ -114,7 +148,7 @@ const styles = StyleSheet.create({
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-    color: '#B53471',
+    // color: '#B53471',
     // marginTop: 10,
   },
   img_container: {
@@ -149,31 +183,32 @@ const styles = StyleSheet.create({
     // alignContent: 'center',
   },
   btn: {
-    width: '30%',
+    width: '72%',
     padding: 8,
     borderRadius: 10,
-    backgroundColor: '#B53471',
+    // flexDirection: 'row',
+    backgroundColor: '#16a085',
     alignItems: 'center',
   },
   btn_delete: {
-    width: '90%',
+    width: '95%',
     padding: 8,
     marginRight: 10,
     borderRadius: 10,
-    backgroundColor: '#fc5c65',
+    backgroundColor: '#ee5253',
     alignItems: 'center',
   },
   btn_update: {
-    width: '90%',
+    width: '95%',
     padding: 8,
     // marginRight: 40,
     borderRadius: 10,
-    backgroundColor: '#B53471',
+    backgroundColor: '#16a085',
     alignItems: 'center',
   },
   btn_label: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 15,
   },
 });
 

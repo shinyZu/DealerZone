@@ -19,7 +19,7 @@ import {
 } from 'native-base';
 import {MaterialIcons} from 'react-native-vector-icons';
 
-import Avatar from '../assets/images/avatar1.jpg';
+import Avatar from '../assets/images/avatar2.jpg';
 
 // create a component
 const Login = ({navigation}) => {
@@ -39,81 +39,87 @@ const Login = ({navigation}) => {
 
   return (
     <NativeBaseProvider>
-      <View style={[{minHeight: Math.round(windowHeight)}]}>
-        {/* Avatar */}
-        <View style={styles.avatar_container}>
-          <Image style={styles.avatar} source={Avatar} />
-        </View>
+      <View style={styles.main_container}>
+        <View style={[{minHeight: Math.round(windowHeight)}]}>
+          {/* Avatar */}
+          <View style={styles.avatar_container}>
+            <Image style={styles.avatar} source={Avatar} />
+          </View>
 
-        {/* Label */}
-        <View style={styles.label_container}>
-          <Text style={styles.label}>{title}</Text>
-        </View>
+          {/* Label */}
+          <View style={styles.label_container}>
+            <Text style={styles.label}>{title}</Text>
+          </View>
 
-        {/* Inputs */}
-        <VStack
-          space={title == 'Register' ? 4 : 8}
-          mt={title == 'Register' ? 0 : -20}
-          style={styles.input_container}>
-          {isVisible && (
+          {/* Inputs */}
+          <VStack
+            space={title == 'Register' ? 4 : 8}
+            mt={title == 'Register' ? 0 : -20}
+            style={styles.input_container}>
+            {isVisible && (
+              <FormControl isInvalid={!isValid} w="80%" maxW="300px">
+                <Input placeholder="NIC No" style={{color: '#fff'}} />
+                <FormControl.ErrorMessage>
+                  Invalid NIC No
+                </FormControl.ErrorMessage>
+              </FormControl>
+            )}
             <FormControl isInvalid={!isValid} w="80%" maxW="300px">
-              <Input placeholder="NIC No" />
+              <Input placeholder="Email" style={{color: '#fff'}} />
+              <FormControl.ErrorMessage>Invalid Email</FormControl.ErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={!isValid} w="80%" maxW="300px">
+              <Input
+                placeholder="Password"
+                type="password"
+                style={{color: '#fff'}}
+              />
               <FormControl.ErrorMessage>
-                Invalid NIC No
+                Must have atleast 8 charaters, use only letters and numbers
               </FormControl.ErrorMessage>
             </FormControl>
-          )}
-          <FormControl isInvalid={!isValid} w="80%" maxW="300px">
-            <Input placeholder="Email" />
-            <FormControl.ErrorMessage>Invalid Email</FormControl.ErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!isValid} w="80%" maxW="300px">
-            <Input placeholder="Password" type="password" />
-            <FormControl.ErrorMessage>
-              Must have atleast 8 charaters, use only letters and numbers
-            </FormControl.ErrorMessage>
-          </FormControl>
-          {isVisible && (
-            <FormControl isInvalid={!isValid} w="80%" maxW="300px">
-              <Input placeholder="Contact No" />
-              <FormControl.ErrorMessage>
-                Invalid Contact
-              </FormControl.ErrorMessage>
-            </FormControl>
-          )}
-        </VStack>
+            {isVisible && (
+              <FormControl isInvalid={!isValid} w="80%" maxW="300px">
+                <Input placeholder="Contact No" style={{color: '#fff'}} />
+                <FormControl.ErrorMessage>
+                  Invalid Contact
+                </FormControl.ErrorMessage>
+              </FormControl>
+            )}
+          </VStack>
 
-        {/* Buttons */}
-        <View style={styles.btn_container}>
-          <TouchableOpacity
-            style={styles.btn_register}
-            onPress={() => {
-              navigation.navigate('HomeScreen');
-            }}>
-            <Text style={styles.btn_label}>{btn1Label}</Text>
-          </TouchableOpacity>
-          <Text style={styles.sub_text}>{subText}</Text>
-          <Button
-            size="sm"
-            variant="ghost"
-            colorScheme="secondary"
-            onPress={() => {
-              if (title === 'Login') {
-                setTitle('Register');
-                setBtn1Label('Register');
-                setSubText('Already Registered?');
-                setBtn2Label('Login');
-                setIsVisible(true);
-              } else if (title === 'Register') {
-                setTitle('Login');
-                setBtn1Label('Login');
-                setSubText('Not a Member?');
-                setBtn2Label('Register');
-                setIsVisible(false);
-              }
-            }}>
-            {btn2Label}
-          </Button>
+          {/* Buttons */}
+          <View style={styles.btn_container}>
+            <TouchableOpacity
+              style={styles.btn_register}
+              onPress={() => {
+                navigation.navigate('HomeScreen');
+              }}>
+              <Text style={styles.btn_label}>{btn1Label}</Text>
+            </TouchableOpacity>
+            <Text style={styles.sub_text}>{subText}</Text>
+            <Button
+              size="sm"
+              variant="ghost"
+              colorScheme="green"
+              onPress={() => {
+                if (title === 'Login') {
+                  setTitle('Register');
+                  setBtn1Label('Register');
+                  setSubText('Already Registered?');
+                  setBtn2Label('Login');
+                  setIsVisible(true);
+                } else if (title === 'Register') {
+                  setTitle('Login');
+                  setBtn1Label('Login');
+                  setSubText('Not a Member?');
+                  setBtn2Label('Register');
+                  setIsVisible(false);
+                }
+              }}>
+              {btn2Label}
+            </Button>
+          </View>
         </View>
       </View>
     </NativeBaseProvider>
@@ -124,6 +130,7 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
+    backgroundColor: '#1e272e',
   },
 
   avatar_container: {
@@ -148,26 +155,26 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    color: 'black',
+    color: '#fff',
     fontSize: 30,
   },
 
   input_container: {
     // backgroundColor: 'red',
-    color: 'black',
+    color: '#fff',
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
-  input: {
-    borderWidth: 1,
-    borderColor: '#95a5a6',
-    width: '80%',
-    margin: 12,
-    borderRadius: 5,
-    color: 'black',
-  },
+  // input: {
+  //   borderWidth: 1,
+  //   borderColor: '#95a5a6',
+  //   width: '80%',
+  //   margin: 12,
+  //   borderRadius: 5,
+  //   color: '#fff',
+  // },
 
   btn_container: {
     // backgroundColor: 'green',
@@ -179,7 +186,7 @@ const styles = StyleSheet.create({
     width: '80%',
     padding: 10,
     borderRadius: 10,
-    backgroundColor: '#B53471',
+    backgroundColor: '#16a085',
     alignItems: 'center',
     marginBottom: 10,
   },

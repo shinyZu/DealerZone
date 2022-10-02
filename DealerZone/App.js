@@ -24,45 +24,46 @@ const HomeTabs = ({navigation}) => {
     <Tab.Navigator
       // headderMode="float"
       screenOptions={{
-        tabBarLabelStyle: {color: '#fff', fontSize: 9},
-        tabBarStyle: {backgroundColor: '#6D214F'},
+        tabBarLabelStyle: {color: '#fff', fontSize: 9.5},
+        // tabBarStyle: {backgroundColor: '#6D214F'},
+        tabBarStyle: {backgroundColor: '#576574'},
+        // tabBarStyle: {backgroundColor: '#1e272e'},
         tabBarIndicatorStyle: {
-          backgroundColor: '#f8a5c2',
+          backgroundColor: '#1abc9c',
         },
         // tabBarShowIcon: true,
       }}>
+      <Tab.Screen name="Home" component={Home} />
       <Tab.Screen
-        name="Home"
-        component={Home}
-        // options={{tabBarLabel: 'Home'}}
-        // options={{
-        //   tabBarIcon: () => {
-        //     <Icon name="add-circle-outline" color="#fff" />;
-        //   },
-        // }}
+        name="Cars"
+        component={Cars}
+        options={{swipeEnabled: false}}
       />
       <Tab.Screen
         name="Add"
         component={AddCarDetails}
-        // options={{
-        // tabBarShowIcon: true,
-        // tabBarIcon: ({tintColor}) => (
-        //   <Icon name="down" /* size={30} */ color="#fff" />
-        // ),
-        // }}
+        options={{swipeEnabled: false}}
       />
-      <Tab.Screen name="Cars" component={Cars} />
-      <Tab.Screen name="Manage" component={ManageCar} />
+      <Tab.Screen
+        name="Manage"
+        component={ManageCar}
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+          },
+        }}
+        options={{swipeEnabled: false}}
+      />
       <Tab.Screen
         name="Logout"
         component={Login}
         listeners={{
           tabPress: e => {
-            // Prevent default action
             e.preventDefault();
             navigation.navigate('Login');
           },
         }}
+        options={{swipeEnabled: false}}
       />
     </Tab.Navigator>
   );
@@ -76,7 +77,8 @@ const App = ({navigation}) => {
         headderMode="float"
         screenOptions={{
           title: "Welcome To Dealer's Zone",
-          headerStyle: {backgroundColor: '#B53471'},
+          // headerStyle: {backgroundColor: '#B53471'},
+          headerStyle: {backgroundColor: '#1e272e'},
           headerTintColor: '#fff',
         }}>
         <Stack.Screen name="Login" component={Login} />
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#1e272e',
   },
 });
 

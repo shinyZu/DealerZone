@@ -12,7 +12,7 @@ const AddCarDetails = () => {
     <NativeBaseProvider>
       {/* <View style={styles.container}> */}
       <View style={[{minHeight: Math.round(windowHeight)}]}>
-        <CarForm btnTitle="Save Car" />
+        <CarForm btnTitle="Save Car" data={null} />
       </View>
     </NativeBaseProvider>
   );
