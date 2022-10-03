@@ -20,6 +20,12 @@ import {
 import {MaterialIcons} from 'react-native-vector-icons';
 import {Icon} from 'react-native-elements';
 
+import {
+  launchCamera,
+  launchImageLibrary,
+  showImagePicker,
+} from 'react-native-image-picker';
+
 import image from '../assets/images/car.png';
 
 // create a component
@@ -29,15 +35,88 @@ const CarForm = props => {
   const [img, setImg] = useState(image);
   const [details, setDetails] = useState('ASASAS');
 
+  const [fileUri, setFileUri] = useState('');
+
   useEffect(() => {
     if (props.btnTitle === 'Update') {
       const data = props.data;
       setRegNo(data.reg_no);
       setDetails(data.details);
-      console.log(regNo);
-      console.log(details);
+      // console.log(regNo);
+      // console.log(details);
     }
   });
+
+  const openCamera = () => {
+    // console.log('Inside Launch Camera');
+    let options = {
+      storageOptions: {
+        // skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        // const source = {uri: response.assets[0].uri};
+        // console.log(source);
+        // image from camera --> "file:///data/user/0/com.dealerzone/cache/rn_image_picker_lib_temp_9d171869-e3f0-47cc-b7ba-584b2481cef6.jpg"
+        setFileUri(response.assets[0].uri);
+      }
+    });
+  };
+
+  const launchGallery = () => {
+    let options = {
+      storageOptions: {
+        // skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        setFileUri(response.assets[0].uri);
+      }
+    });
+  };
+
+  const renderFileUri = () => {
+    if (fileUri) {
+      return (
+        <Image
+          style={{borderRadius: 10}}
+          source={{uri: fileUri}}
+          alt="car"
+          size="200"
+          mb={3}
+        />
+      );
+    } else {
+      return (
+        <Image
+          style={{borderRadius: 10}}
+          source={require('../assets/images/dummy.png')}
+          alt="car"
+          size="200"
+          mb={3}
+        />
+      );
+    }
+  };
+
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
@@ -72,8 +151,25 @@ const CarForm = props => {
         </View>
         <View style={styles.img_container}>
           {/* <Center> */}
-          <Image style={{borderRadius: 10}} source={img} alt="car" size="2xl" />
-          {/* </Center> */}
+          {props.btnTitle == 'Update' ? (
+            <Image
+              style={{borderRadius: 10}}
+              source={require('../assets/images/car.png')}
+              alt="car"
+              size="200"
+              mb={3}
+            />
+          ) : (
+            renderFileUri()
+          )}
+          <TouchableOpacity
+            onPress={launchGallery}
+            style={styles.btn_chooseFile}>
+            <Text style={{color: '#303952'}}>Choose Image</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={openCamera} style={styles.btn_chooseFile}>
+            <Text style={{color: '#303952'}}>Camera</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.detail_container}>
@@ -158,13 +254,21 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
   },
+  btn_chooseFile: {
+    backgroundColor: '#a5b1c2',
+    marginBottom: 5,
+    alignItems: 'center',
+    borderRadius: 5,
+    padding: 3,
+    // width: '80%',
+  },
   detail_container: {
     // backgroundColor: 'pink',
     flex: 2.5,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    marginTop: 30,
+    marginTop: 50,
   },
   btn_container_save: {
     // backgroundColor: 'green',
@@ -209,6 +313,13 @@ const styles = StyleSheet.create({
   btn_label: {
     color: '#fff',
     fontSize: 15,
+  },
+  btnText: {
+    // marginBottom: 4,
+    // textAlign: 'center',
+    // color: 'gray',
+    // fontSize: 14,
+    // fontWeight: 'bold',
   },
 });
 

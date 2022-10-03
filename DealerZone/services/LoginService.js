@@ -5,7 +5,7 @@ class LoginService {
     console.log(data);
     const promise = new Promise((resolve, reject) => {
       axios
-        .post('', data)
+        .post('login', data)
         .then(res => {
           return resolve(res);
         })

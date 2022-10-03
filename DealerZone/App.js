@@ -14,6 +14,7 @@ import Home from './screens/Home';
 import AddCarDetails from './screens/AddCarDetails';
 import Cars from './screens/Cars';
 import ManageCar from './screens/ManageCar';
+import Test from './screens/Test';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -81,6 +82,7 @@ const App = ({navigation}) => {
           headerStyle: {backgroundColor: '#1e272e'},
           headerTintColor: '#fff',
         }}>
+        {/* <Stack.Screen name="Camera" component={Test} /> */}
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="HomeScreen" component={HomeTabs} />
       </Stack.Navigator>

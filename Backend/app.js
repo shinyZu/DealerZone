@@ -1,7 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const app = express(); // to start a new Express application
+const cors = require("cors"); // to handle CORS issue
+app.use(cors());
 app.use(express.json());
+
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   next();
+// });
 
 const { connection } = require("./db.configs/db");
 connection.establishConnection; // invoke the method to establish connection with mongoDB
@@ -17,7 +24,7 @@ app.use(`${baseURL}user`, user);
 app.use(`${baseURL}car`, car);
 
 app.get("/", (req, res) => {
-  console.log(req);
+  // console.log(req);
   res.send("<h1>Hello Dealer!!!</h1>");
 });
 

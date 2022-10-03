@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
+var cors = require("cors");
 const router = express.Router();
 
 const User = require("../models/user.models");
 
-router.post("/", async (req, res) => {
+router.post("/", cors(), async (req, res) => {
+  console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
 

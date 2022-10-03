@@ -14,12 +14,13 @@ import {
   NativeBaseProvider,
   VStack,
   Input,
-  Icon,
+  // Icon,
   FormControl,
 } from 'native-base';
-import {MaterialIcons} from 'react-native-vector-icons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Avatar from '../assets/images/avatar2.jpg';
+import LoginService from '../services/LoginService';
 
 // create a component
 const Login = ({navigation}) => {
@@ -37,6 +38,64 @@ const Login = ({navigation}) => {
   const [subText, setSubText] = useState('Not a Member?');
   const [isVisible, setIsVisible] = useState(false);
 
+  // const loginUser = async () => {
+  //   let loginForm = {
+  //     email: email,
+  //     password: password,
+  //   };
+  // console.log(loginForm);
+
+  // let res = await LoginService.loginUser(loginForm);
+  // if (res.status === 200) {
+  //   try {
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // } else {
+  //   console.error(res);
+  // }
+
+  // navigation.navigate('HomeScreen');
+
+  // };
+
+  const loginUser = async () => {
+    var formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+    console.log(formData._parts);
+
+    console.log('1');
+    let res = await fetch('http://192.168.1.2:4000/dealer_zone/api/v1/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      // body: JSON.stringify({
+      //   email: email,
+      //   password: password,
+      // }),
+      body: formData,
+    })
+      .then(response => {
+        console.log('2');
+        console.log(response.json());
+      })
+      .catch(err => {
+        console.log('3');
+        console.error(err);
+      });
+
+    console.log(res);
+  };
+
+  const registerUser = () => {
+    console.log('registered');
+    navigation.navigate('HomeScreen');
+  };
+
   return (
     <NativeBaseProvider>
       <View style={styles.main_container}>
@@ -48,6 +107,14 @@ const Login = ({navigation}) => {
 
           {/* Label */}
           <View style={styles.label_container}>
+            {/* <Icon name="rocket" size={30} color="#900" />
+            <Icon.Button
+              name="facebook"
+              backgroundColor="#3b5998"
+              onPress={this.loginWithFacebook}>
+              Login with Facebook
+            </Icon.Button> */}
+            {/* <Icon name="chevron-left" size={30} color="#fff" /> */}
             <Text style={styles.label}>{title}</Text>
           </View>
 
@@ -58,14 +125,28 @@ const Login = ({navigation}) => {
             style={styles.input_container}>
             {isVisible && (
               <FormControl isInvalid={!isValid} w="80%" maxW="300px">
-                <Input placeholder="NIC No" style={{color: '#fff'}} />
+                <Input
+                  placeholder="NIC No"
+                  style={{color: '#fff'}}
+                  value={nicNo}
+                  onChangeText={nic => {
+                    setNicNo(nic);
+                  }}
+                />
                 <FormControl.ErrorMessage>
                   Invalid NIC No
                 </FormControl.ErrorMessage>
               </FormControl>
             )}
             <FormControl isInvalid={!isValid} w="80%" maxW="300px">
-              <Input placeholder="Email" style={{color: '#fff'}} />
+              <Input
+                placeholder="Email"
+                style={{color: '#fff'}}
+                value={email}
+                onChangeText={email => {
+                  setEmail(email);
+                }}
+              />
               <FormControl.ErrorMessage>Invalid Email</FormControl.ErrorMessage>
             </FormControl>
             <FormControl isInvalid={!isValid} w="80%" maxW="300px">
@@ -73,6 +154,10 @@ const Login = ({navigation}) => {
                 placeholder="Password"
                 type="password"
                 style={{color: '#fff'}}
+                value={password}
+                onChangeText={pwd => {
+                  setPassword(pwd);
+                }}
               />
               <FormControl.ErrorMessage>
                 Must have atleast 8 charaters, use only letters and numbers
@@ -80,7 +165,14 @@ const Login = ({navigation}) => {
             </FormControl>
             {isVisible && (
               <FormControl isInvalid={!isValid} w="80%" maxW="300px">
-                <Input placeholder="Contact No" style={{color: '#fff'}} />
+                <Input
+                  placeholder="Contact No"
+                  style={{color: '#fff'}}
+                  value={contactNo}
+                  onChangeText={contNo => {
+                    setContactNo(contNo);
+                  }}
+                />
                 <FormControl.ErrorMessage>
                   Invalid Contact
                 </FormControl.ErrorMessage>
@@ -92,9 +184,7 @@ const Login = ({navigation}) => {
           <View style={styles.btn_container}>
             <TouchableOpacity
               style={styles.btn_register}
-              onPress={() => {
-                navigation.navigate('HomeScreen');
-              }}>
+              onPress={title === 'Login' ? loginUser : registerUser}>
               <Text style={styles.btn_label}>{btn1Label}</Text>
             </TouchableOpacity>
             <Text style={styles.sub_text}>{subText}</Text>
@@ -137,7 +227,6 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 10,
     flex: 1.5,
   },
 
@@ -166,15 +255,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
-  // input: {
-  //   borderWidth: 1,
-  //   borderColor: '#95a5a6',
-  //   width: '80%',
-  //   margin: 12,
-  //   borderRadius: 5,
-  //   color: '#fff',
-  // },
 
   btn_container: {
     // backgroundColor: 'green',
