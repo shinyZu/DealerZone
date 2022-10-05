@@ -38,58 +38,66 @@ const Login = ({navigation}) => {
   const [subText, setSubText] = useState('Not a Member?');
   const [isVisible, setIsVisible] = useState(false);
 
-  // const loginUser = async () => {
-  //   let loginForm = {
-  //     email: email,
-  //     password: password,
-  //   };
-  // console.log(loginForm);
-
-  // let res = await LoginService.loginUser(loginForm);
-  // if (res.status === 200) {
-  //   try {
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // } else {
-  //   console.error(res);
-  // }
-
-  // navigation.navigate('HomeScreen');
-
-  // };
-
   const loginUser = async () => {
-    var formData = new FormData();
-    formData.append('email', email);
-    formData.append('password', password);
-    console.log(formData._parts);
+    // let loginForm = {
+    //   email: email,
+    //   password: password,
+    // };
+    // console.log('==================1==================');
+    // console.log(loginForm);
+    // console.log('====================================');
 
-    console.log('1');
-    let res = await fetch('http://192.168.1.2:4000/dealer_zone/api/v1/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      // body: JSON.stringify({
-      //   email: email,
-      //   password: password,
-      // }),
-      body: formData,
-    })
-      .then(response => {
-        console.log('2');
-        console.log(response.json());
-      })
-      .catch(err => {
-        console.log('3');
-        console.error(err);
-      });
+    // let res = await LoginService.loginUser(loginForm);
+    // console.log('3');
+    // if (res.status === 200) {
+    //   try {
+    //     console.log('================4====================');
+    //     console.log(res);
+    //     console.log('====================================');
+    //   } catch (error) {
+    //     console.log('===============5=====================');
+    //     console.error(error);
+    //     console.log('====================================');
+    //   }
+    // } else {
+    //   console.log('=================9===================');
+    //   console.error(res);
+    //   console.log('====================================');
+    // }
 
-    console.log(res);
+    navigation.navigate('HomeScreen');
   };
+
+  // const loginUser = async () => {
+  //   var formData = new FormData();
+  //   formData.append('email', email);
+  //   formData.append('password', password);
+  //   // console.log(formData._parts);
+
+  //   console.log('1');
+  //   let res = await fetch('http://192.168.1.2:4000/dealer_zone/api/v1/test', {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     // body: JSON.stringify({
+  //     //   email: email,
+  //     //   password: password,
+  //     // }),
+  //     body: formData,
+  //   })
+  //     .then(response => {
+  //       console.log('2');
+  //       console.log(response.json());
+  //     })
+  //     .catch(err => {
+  //       console.log('3');
+  //       console.error(err);
+  //     });
+
+  //   console.log(res);
+  // };
 
   const registerUser = () => {
     console.log('registered');

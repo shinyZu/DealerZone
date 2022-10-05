@@ -22,19 +22,20 @@ const Cars = ({navigation}) => {
           renderItem={({item}) => (
             <TouchableOpacity
               style={{
-                borderWidth: 1,
-                borderRadius: 5,
+                borderRadius: 10,
                 marginBottom: '5%',
-                padding: 5,
+                padding: 3,
+                // borderWidth: 1,
+                // backgroundColor: '#2c3e50',
                 // shadowColor: 'rgb(0, 0, 0)',
                 // shadowColor: '#fff',
-                shadowOffset: {
-                  width: 5,
-                  height: 5,
-                },
-                shadowOpacity: 0.8,
-                shadowRadius: 15,
-                elevation: 2,
+                // shadowOffset: {
+                //   width: 15,
+                //   height: 15,
+                // },
+                // shadowOpacity: 0.8,
+                // shadowRadius: 15,
+                elevation: 8,
               }}
               onPress={() => {
                 navigation.navigate('Manage', {obj: item});
@@ -47,6 +48,7 @@ const Cars = ({navigation}) => {
                       source={img}
                       alt="car"
                       size="lg"
+                      mt={3}
                     />
                   </Center>
                 </View>
