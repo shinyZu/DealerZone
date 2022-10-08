@@ -17,8 +17,7 @@ import {
   IconButton,
 } from 'native-base';
 
-import {MaterialIcons} from 'react-native-vector-icons';
-import {Icon} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
   launchCamera,
@@ -162,14 +161,22 @@ const CarForm = props => {
           ) : (
             renderFileUri()
           )}
-          <TouchableOpacity
-            onPress={launchGallery}
-            style={styles.btn_chooseFile}>
-            <Text style={{color: '#303952'}}>Choose Image</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={openCamera} style={styles.btn_chooseFile}>
-            <Text style={{color: '#303952'}}>Camera</Text>
-          </TouchableOpacity>
+          <View style={styles.btn_container}>
+            <TouchableOpacity
+              onPress={launchGallery}
+              style={styles.btn_chooseFile}>
+              <Icon
+                name={'add-photo-alternate'}
+                style={styles.img_btn}
+                size={30}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={openCamera}
+              style={styles.btn_chooseFile}>
+              <Icon name={'add-a-photo'} style={styles.img_btn} size={30} />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.detail_container}>
@@ -193,7 +200,8 @@ const CarForm = props => {
                 alignItems: 'flex-start',
               }}>
               <TouchableOpacity style={styles.btn_delete}>
-                <Text style={styles.btn_label}>Delete</Text>
+                {/* <Text style={styles.btn_label}>Delete</Text> */}
+                <Icon name={'delete'} style={styles.icon_delete} size={30} />
               </TouchableOpacity>
             </View>
             <View
@@ -211,16 +219,6 @@ const CarForm = props => {
           <View style={styles.btn_container_save}>
             <TouchableOpacity style={styles.btn}>
               <Text style={styles.btn_label}>{props.btnTitle}</Text>
-
-              {/* <IconButton
-              size="xs"
-              color="black"
-              variant="outline"
-              _icon={{
-                as: MaterialIcons,
-                name: 'add',
-              }}
-            /> */}
             </TouchableOpacity>
           </View>
         )}
@@ -254,8 +252,21 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
   },
+  btn_container: {
+    // backgroundColor: 'yellow',
+    // flex: 3,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  img_btn: {
+    color: '#fff',
+    padding: 2,
+    paddingHorizontal: 30,
+    // width: '10%',
+  },
   btn_chooseFile: {
-    backgroundColor: '#a5b1c2',
+    // backgroundColor: '#a5b1c2',
+    backgroundColor: '#7f8c8d',
     marginBottom: 5,
     alignItems: 'center',
     borderRadius: 5,
@@ -296,11 +307,15 @@ const styles = StyleSheet.create({
   },
   btn_delete: {
     width: '95%',
-    padding: 8,
+    // padding: 8,
     marginRight: 10,
     borderRadius: 10,
     backgroundColor: '#ee5253',
     alignItems: 'center',
+  },
+  icon_delete: {
+    color: '#fff',
+    padding: 4,
   },
   btn_update: {
     width: '95%',

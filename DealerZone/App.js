@@ -5,8 +5,7 @@ import 'react-native-gesture-handler';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {View, Text, StyleSheet} from 'react-native';
-// import {AddIcon, AntDesign} from 'native-base';
-// import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // imports all screens
 import Login from './screens/Login';
@@ -34,16 +33,28 @@ const HomeTabs = ({navigation}) => {
         },
         // tabBarShowIcon: true,
       }}>
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: () => <Icon name={'home'} size={25} />,
+        }}
+      />
       <Tab.Screen
         name="Cars"
         component={Cars}
-        options={{swipeEnabled: false}}
+        options={{
+          swipeEnabled: false,
+          tabBarIcon: () => <Icon name={'directions-car'} size={25} />,
+        }}
       />
       <Tab.Screen
         name="Add"
         component={AddCarDetails}
-        options={{swipeEnabled: false}}
+        options={{
+          swipeEnabled: false,
+          tabBarIcon: () => <Icon name={'library-add'} size={25} />,
+        }}
       />
       <Tab.Screen
         name="Manage"
@@ -53,7 +64,10 @@ const HomeTabs = ({navigation}) => {
             e.preventDefault();
           },
         }}
-        options={{swipeEnabled: false}}
+        options={{
+          swipeEnabled: false,
+          tabBarIcon: () => <Icon name={'edit'} size={25} />,
+        }}
       />
       <Tab.Screen
         name="Logout"
@@ -64,7 +78,10 @@ const HomeTabs = ({navigation}) => {
             navigation.navigate('Login');
           },
         }}
-        options={{swipeEnabled: false}}
+        options={{
+          swipeEnabled: false,
+          tabBarIcon: () => <Icon name={'logout'} size={25} />,
+        }}
       />
     </Tab.Navigator>
   );

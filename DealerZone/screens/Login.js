@@ -17,7 +17,6 @@ import {
   // Icon,
   FormControl,
 } from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Avatar from '../assets/images/avatar2.jpg';
 import LoginService from '../services/LoginService';
@@ -115,14 +114,6 @@ const Login = ({navigation}) => {
 
           {/* Label */}
           <View style={styles.label_container}>
-            {/* <Icon name="rocket" size={30} color="#900" />
-            <Icon.Button
-              name="facebook"
-              backgroundColor="#3b5998"
-              onPress={this.loginWithFacebook}>
-              Login with Facebook
-            </Icon.Button> */}
-            {/* <Icon name="chevron-left" size={30} color="#fff" /> */}
             <Text style={styles.label}>{title}</Text>
           </View>
 
@@ -194,7 +185,11 @@ const Login = ({navigation}) => {
               style={styles.btn_register}
               onPress={title === 'Login' ? loginUser : registerUser}>
               <Text style={styles.btn_label}>{btn1Label}</Text>
+              {/* <Icon.Button
+                name={'login'}
+                backgroundColor="#16a085"/> */}
             </TouchableOpacity>
+
             <Text style={styles.sub_text}>{subText}</Text>
             <Button
               size="sm"
@@ -275,8 +270,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     backgroundColor: '#16a085',
-    alignItems: 'center',
     marginBottom: 10,
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   btn_label: {
