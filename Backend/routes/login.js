@@ -11,6 +11,13 @@ router.post("/", cors(), async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
+  if (email === "" || password === "") {
+    console.log("empty inputs");
+    return res
+      .status(404)
+      .json({ message: "Please fill the required fields!" });
+  }
+
   User.find({ email: email }, (err, user) => {
     if (err) {
       return res.status(500).send(err);

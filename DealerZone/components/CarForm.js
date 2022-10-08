@@ -18,6 +18,7 @@ import {
 } from 'native-base';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
   launchCamera,
@@ -165,16 +166,28 @@ const CarForm = props => {
             <TouchableOpacity
               onPress={launchGallery}
               style={styles.btn_chooseFile}>
-              <Icon
-                name={'add-photo-alternate'}
-                style={styles.img_btn}
-                size={30}
-              />
+              <LinearGradient
+                colors={['#95a5a6', '#7f8c8d', '#95a5a6']}
+                start={{x: 0, y: 0.1}}
+                end={{x: 0, y: 0.5}}
+                style={{borderRadius: 5, padding: 3}}>
+                <Icon
+                  name={'add-photo-alternate'}
+                  style={styles.img_btn}
+                  size={30}
+                />
+              </LinearGradient>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={openCamera}
               style={styles.btn_chooseFile}>
-              <Icon name={'add-a-photo'} style={styles.img_btn} size={30} />
+              <LinearGradient
+                colors={['#95a5a6', '#7f8c8d', '#95a5a6']}
+                start={{x: 0, y: 0.1}}
+                end={{x: 0, y: 0.5}}
+                style={{borderRadius: 5, padding: 3}}>
+                <Icon name={'add-a-photo'} style={styles.img_btn} size={30} />
+              </LinearGradient>
             </TouchableOpacity>
           </View>
         </View>
@@ -197,11 +210,16 @@ const CarForm = props => {
               style={{
                 flex: 6,
                 // backgroundColor: 'yellow',
-                alignItems: 'flex-start',
+                alignItems: 'flex-end',
               }}>
               <TouchableOpacity style={styles.btn_delete}>
-                {/* <Text style={styles.btn_label}>Delete</Text> */}
-                <Icon name={'delete'} style={styles.icon_delete} size={30} />
+                <LinearGradient
+                  colors={['#c0392b', '#e74c3c', '#c0392b']}
+                  start={{x: 0, y: 0.1}}
+                  end={{x: 0, y: 0.5}}
+                  style={styles.btn_delete}>
+                  <Icon name={'delete'} style={styles.icon_delete} size={30} />
+                </LinearGradient>
               </TouchableOpacity>
             </View>
             <View
@@ -211,14 +229,26 @@ const CarForm = props => {
                 alignItems: 'flex-end',
               }}>
               <TouchableOpacity style={styles.btn_update}>
-                <Text style={styles.btn_label}>{props.btnTitle}</Text>
+                <LinearGradient
+                  colors={['#16a085', '#00b894', '#16a085']}
+                  start={{x: 0, y: 0.1}}
+                  end={{x: 0, y: 0.5}}
+                  style={styles.btn_update}>
+                  <Text style={styles.btn_label}>{props.btnTitle}</Text>
+                </LinearGradient>
               </TouchableOpacity>
             </View>
           </View>
         ) : (
           <View style={styles.btn_container_save}>
             <TouchableOpacity style={styles.btn}>
-              <Text style={styles.btn_label}>{props.btnTitle}</Text>
+              <LinearGradient
+                colors={['#16a085', '#00b894', '#16a085']}
+                start={{x: 0, y: 0.1}}
+                end={{x: 0, y: 0.5}}
+                style={styles.btn}>
+                <Text style={styles.btn_label}>{props.btnTitle}</Text>
+              </LinearGradient>
             </TouchableOpacity>
           </View>
         )}
@@ -266,7 +296,7 @@ const styles = StyleSheet.create({
   },
   btn_chooseFile: {
     // backgroundColor: '#a5b1c2',
-    backgroundColor: '#7f8c8d',
+    // backgroundColor: '#7f8c8d',
     marginBottom: 5,
     alignItems: 'center',
     borderRadius: 5,
@@ -279,7 +309,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    marginTop: 50,
+    marginTop: 30,
   },
   btn_container_save: {
     // backgroundColor: 'green',
@@ -287,43 +317,38 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
+
   btn_container_update: {
     // backgroundColor: 'green',
     flex: 2.5,
     flexDirection: 'row',
-    // height: '10%',
-    width: '70%',
-    // justifyContent: 're',
-    // alignItems: 'center',
-    // alignContent: 'center',
+    width: '75%',
+    justifyContent: 'space-between',
   },
   btn: {
-    width: '72%',
+    width: '87%',
     padding: 8,
     borderRadius: 10,
-    // flexDirection: 'row',
-    backgroundColor: '#16a085',
     alignItems: 'center',
   },
   btn_delete: {
-    width: '95%',
-    // padding: 8,
-    marginRight: 10,
+    width: '80%',
+    marginRight: 20,
     borderRadius: 10,
-    backgroundColor: '#ee5253',
     alignItems: 'center',
+    // backgroundColor: '#ee5253',
   },
   icon_delete: {
     color: '#fff',
     padding: 4,
   },
   btn_update: {
-    width: '95%',
+    width: '110%',
     padding: 8,
-    // marginRight: 40,
+    marginTop: -4,
     borderRadius: 10,
-    backgroundColor: '#16a085',
     alignItems: 'center',
+    // backgroundColor: '#16a085',
   },
   btn_label: {
     color: '#fff',

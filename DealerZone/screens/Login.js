@@ -14,10 +14,12 @@ import {
   NativeBaseProvider,
   VStack,
   Input,
-  // Icon,
+  Alert,
+  Center,
+  Slide,
   FormControl,
 } from 'native-base';
-
+import LinearGradient from 'react-native-linear-gradient';
 import Avatar from '../assets/images/avatar2.jpg';
 import LoginService from '../services/LoginService';
 
@@ -37,34 +39,55 @@ const Login = ({navigation}) => {
   const [subText, setSubText] = useState('Not a Member?');
   const [isVisible, setIsVisible] = useState(false);
 
+  const [isOpenTop, setIsOpenTop] = useState(false);
+  const str = `${isOpenTop ? 'Hide' : 'Check Internet Connection'}`;
+
+  const alert = (
+    <Center h="32">
+      <Slide in={isOpenTop} placement="top">
+        <Alert justifyContent="center" status="error" safeAreaTop={8}>
+          <Alert.Icon />
+          <Text color="error.600" fontWeight="medium">
+            No Internet Connection
+          </Text>
+        </Alert>
+      </Slide>
+      <Button
+        onPress={() => setIsOpenTop(!isOpenTop)}
+        variant="unstyled"
+        bg="coolGray.700:alpha.30"
+        // _text={{
+        //   color: useColorModeValue('darkText', 'lightText'),
+        // }}
+      >
+        {str}
+      </Button>
+    </Center>
+  );
+
   const loginUser = async () => {
-    // let loginForm = {
-    //   email: email,
-    //   password: password,
-    // };
-    // console.log('==================1==================');
-    // console.log(loginForm);
-    // console.log('====================================');
+    let loginForm = {
+      email: email,
+      password: password,
+    };
+    console.log(loginForm);
 
-    // let res = await LoginService.loginUser(loginForm);
-    // console.log('3');
-    // if (res.status === 200) {
-    //   try {
-    //     console.log('================4====================');
-    //     console.log(res);
-    //     console.log('====================================');
-    //   } catch (error) {
-    //     console.log('===============5=====================');
-    //     console.error(error);
-    //     console.log('====================================');
-    //   }
-    // } else {
-    //   console.log('=================9===================');
-    //   console.error(res);
-    //   console.log('====================================');
-    // }
+    // let res = await LoginService.getAll();
+    let res = await LoginService.loginUser(loginForm);
+    console.log('3');
+    if (res.status === 200) {
+      try {
+        // console.log(res.data);
+        setIsOpenTop(!isOpenTop);
+        navigation.navigate('HomeScreen');
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.error(res.response.data.message);
+    }
 
-    navigation.navigate('HomeScreen');
+    // navigation.navigate('HomeScreen');
   };
 
   // const loginUser = async () => {
@@ -181,13 +204,22 @@ const Login = ({navigation}) => {
 
           {/* Buttons */}
           <View style={styles.btn_container}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.btn_register}
               onPress={title === 'Login' ? loginUser : registerUser}>
               <Text style={styles.btn_label}>{btn1Label}</Text>
-              {/* <Icon.Button
-                name={'login'}
-                backgroundColor="#16a085"/> */}
+            </TouchableOpacity> */}
+
+            <TouchableOpacity
+              onPress={title === 'Login' ? loginUser : registerUser}
+              style={styles.btn_register}>
+              <LinearGradient
+                colors={['#1abc9c', '#00b894', '#16a085']}
+                start={{x: 0, y: 0.1}}
+                end={{x: 0, y: 0.5}}
+                style={styles.btn_reg_grad}>
+                <Text style={styles.btn_label}>{btn1Label}</Text>
+              </LinearGradient>
             </TouchableOpacity>
 
             <Text style={styles.sub_text}>{subText}</Text>
@@ -267,13 +299,14 @@ const styles = StyleSheet.create({
 
   btn_register: {
     width: '80%',
+    marginBottom: 10,
+    // backgroundColor: '#16a085',
+  },
+
+  btn_reg_grad: {
     padding: 10,
     borderRadius: 10,
-    backgroundColor: '#16a085',
-    marginBottom: 10,
-    flexDirection: 'row-reverse',
     alignItems: 'center',
-    justifyContent: 'center',
   },
 
   btn_label: {

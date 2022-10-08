@@ -1,12 +1,11 @@
 require("dotenv").config();
 const express = require("express");
-const app = express(); // to start a new Express application
 const cors = require("cors"); // to handle CORS issue
+const app = express(); // to start a new Express application
 const bodyParser = require("body-parser");
-
-app.use(express.json());
 app.use(bodyParser.json()); // create application/json parser
 app.use(cors());
+app.use(express.json());
 
 // app.use((req, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -28,11 +27,12 @@ app.use(`${baseURL}car`, car);
 
 app.get("/", (req, res) => {
   // console.log(req);
-  res.send("<h1>Hello Dealer!!!</h1>");
+  res.send("<h1>Hello Dealerrrrrrrrrrrr!!!</h1>");
 });
 
-app.post("test", (req, res) => {
+app.post("/test", (req, res) => {
   console.log("Req Recieved...............");
+  res.send("<h1>Req Recieved</h1>");
 });
 
 app.listen(process.env.PORT, (req, res) => {
