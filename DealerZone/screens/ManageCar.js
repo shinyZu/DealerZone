@@ -8,17 +8,22 @@ import CarForm from '../components/CarForm';
 const ManageCar = ({navigation, route}) => {
   const windowHeight = useWindowDimensions().height;
   //   console.log(route.params);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    if (route.params != undefined) {
+    // console.log(route);
+    if (route.params) {
+      console.log('-------route.params.obj-----');
+      console.log(route.params.obj);
       setData(route.params.obj);
+      console.log('-------data-----');
+      console.log(data);
     }
   });
   return (
     <NativeBaseProvider>
       <View style={[{minHeight: Math.round(windowHeight)}]}>
-        <CarForm btnTitle="Update" data={data} />
+        <CarForm btnTitle="Update" data={data ? data : null} />
       </View>
     </NativeBaseProvider>
   );

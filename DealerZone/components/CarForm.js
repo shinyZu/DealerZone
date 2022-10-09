@@ -1,4 +1,3 @@
-//import liraries
 import React, {Component, useEffect, useState} from 'react';
 import {
   View,
@@ -15,6 +14,7 @@ import {
   Image,
   Input,
   IconButton,
+  HStack,
 } from 'native-base';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -33,19 +33,68 @@ const CarForm = props => {
   const windowHeight = useWindowDimensions().height;
   const [regNo, setRegNo] = useState('TT-5951');
   const [img, setImg] = useState(image);
-  const [details, setDetails] = useState('ASASAS');
+  const [details, setDetails] = useState(props.data);
 
   const [fileUri, setFileUri] = useState('');
 
+  const [brand, setBrand] = useState('');
+  const [color, setColor] = useState('');
+  const [fuelType, setFuelType] = useState('');
+  const [mileage, setMileage] = useState('');
+
   useEffect(() => {
-    if (props.btnTitle === 'Update') {
-      const data = props.data;
-      setRegNo(data.reg_no);
-      setDetails(data.details);
-      // console.log(regNo);
+    console.log('Car Formmmmmmm');
+    if (props.btnTitle === 'Save Car') {
+      console.log('Save Car');
       // console.log(details);
+      // console.log(props.data);
+    } else if (props.btnTitle === 'Update') {
+      console.log('Update Car');
+      // console.log(details);
+      // console.log(props.data);
+      if (props.data) {
+        // console.log(details != null);
+        setCarDetails(props.data);
+      }
     }
-  });
+
+    // if (props.btnTitle === 'Update' && props.data.length != 0) {
+    //   console.log('Update Car  && []');
+    //   console.log(props.data.length == 0);
+    //   const data = props.data;
+    //   console.log('==============data======================');
+    //   console.log(data);
+    //   console.log('====================================');
+
+    //   if (props.data.length != 0) {
+    //     setCarDetails(props.data);
+    //   }
+    // }
+
+    // if (props.btnTitle === 'Save Car' && props.data === null) {
+    //   console.log('Save Car  && null');
+    //   console.log(props.data === null);
+    // }
+  }, [regNo]);
+
+  const setCarDetails = data => {
+    // console.log(details);
+    setRegNo(data.reg_no);
+    // setDetails(data.details);
+    // clearDetails();
+    setBrand(data.details.split('brand:')[1].split(',')[0].trim());
+    setColor(data.details.split('color:')[1].split(',')[0]);
+    setFuelType(data.details.split('fuel:')[1].split(',')[0]);
+    setMileage(data.details.split('mileage:')[1].split(',')[0]);
+  };
+
+  const clearDetails = () => {
+    setRegNo('reg-no');
+    setBrand('');
+    setColor('');
+    setFuelType('');
+    setMileage('');
+  };
 
   const openCamera = () => {
     // console.log('Inside Launch Camera');
@@ -192,7 +241,7 @@ const CarForm = props => {
           </View>
         </View>
 
-        <View style={styles.detail_container}>
+        {/* <View style={styles.detail_container}>
           <TextArea
             h={40}
             placeholder="Enter Details"
@@ -200,8 +249,141 @@ const CarForm = props => {
             w="72%"
             maxW="300"
             color="#fff">
-            {props.btnTitle === 'Update' ? details : ''}
+            {props.btnTitle === 'Update' ? (
+              <>
+                <Text>brand : {brand + '\n'}</Text>
+                <Text>color : {color + '\n'}</Text>
+                <Text>fuel type : {fuelType + '\n'}</Text>
+                <Text>mileage : {mileage + '\n'}</Text>
+              </>
+            ) : (
+              ''
+            )}
           </TextArea>
+        </View> */}
+        <View style={styles.detail_container}>
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              width: '70%',
+              flexDirection: 'column',
+              paddingLeft: 8,
+            }}>
+            <HStack
+              space={3}
+              justifyContent="space-between"
+              // style={{
+              //   borderWidth: 1,
+              // }}
+            >
+              <Text style={{marginTop: '5%'}}>Brand:</Text>
+              <Input
+                placeholder={
+                  props.btnTitle === 'Update' ? brand : 'Enter Brand'
+                }
+                style={{
+                  color: '#fff',
+                  paddingBottom: 0,
+                  // borderWidth: 1,
+                }}
+                variant="unstyled"
+                size="xs"
+                width="70%"
+                value={brand}
+                onChangeText={value => {
+                  console.log(value);
+                  setBrand('');
+                  setBrand(value);
+                }}
+              />
+            </HStack>
+            <HStack
+              space={3}
+              justifyContent="space-between"
+              // style={{
+              //   borderWidth: 1,
+              // }}
+            >
+              <Text style={{marginTop: '5%'}}>Color:</Text>
+              <Input
+                placeholder={
+                  props.btnTitle === 'Update' ? color : 'Enter Color'
+                }
+                style={{
+                  color: '#fff',
+                  paddingBottom: 0,
+                  // borderWidth: 1,
+                }}
+                variant="unstyled"
+                size="xs"
+                width="70%"
+                value={color}
+                onChangeText={value => {
+                  console.log(value);
+                  setColor('');
+                  setColor(value);
+                }}
+              />
+            </HStack>
+            <HStack
+              space={3}
+              justifyContent="space-between"
+              // style={{
+              //   borderWidth: 1,
+              // }}
+            >
+              <Text style={{marginTop: '5%'}}>Fuel Type:</Text>
+              <Input
+                placeholder={
+                  props.btnTitle === 'Update' ? fuelType : 'Enter Fuel Type'
+                }
+                style={{
+                  color: '#fff',
+                  paddingBottom: 0,
+                  // borderWidth: 1,
+                }}
+                variant="unstyled"
+                size="xs"
+                width="70%"
+                value={fuelType}
+                onChangeText={value => {
+                  console.log(value);
+                  setFuelType('');
+                  setFuelType(value);
+                }}
+              />
+            </HStack>
+            <HStack
+              space={3}
+              justifyContent="space-between"
+              // style={{
+              //   borderWidth: 1,
+              // }}
+            >
+              <Text style={{marginTop: '5%'}}>Mileage:</Text>
+              <Input
+                placeholder={
+                  props.btnTitle === 'Update' ? mileage : 'Enter Mileage'
+                }
+                style={{
+                  color: '#fff',
+                  paddingBottom: 0,
+                  // borderWidth: 1,
+                }}
+                variant="unstyled"
+                size="xs"
+                width="70%"
+                value={mileage}
+                onChangeText={value => {
+                  console.log(value);
+                  setMileage('');
+                  setMileage(value);
+                }}
+              />
+            </HStack>
+          </View>
         </View>
 
         {props.btnTitle == 'Update' ? (
@@ -306,6 +488,7 @@ const styles = StyleSheet.create({
   detail_container: {
     // backgroundColor: 'pink',
     flex: 2.5,
+    // flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',

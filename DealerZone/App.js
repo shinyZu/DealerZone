@@ -13,21 +13,17 @@ import Home from './screens/Home';
 import AddCarDetails from './screens/AddCarDetails';
 import Cars from './screens/Cars';
 import ManageCar from './screens/ManageCar';
-import Test from './screens/Test';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
-// Icon.loadFont();
 const HomeTabs = ({navigation}) => {
   return (
     <Tab.Navigator
       // headderMode="float"
       screenOptions={{
         tabBarLabelStyle: {color: '#fff', fontSize: 9.5},
-        // tabBarStyle: {backgroundColor: '#6D214F'},
         tabBarStyle: {backgroundColor: '#576574'},
-        // tabBarStyle: {backgroundColor: '#1e272e'},
         tabBarIndicatorStyle: {
           backgroundColor: '#1abc9c',
         },
@@ -99,7 +95,6 @@ const App = ({navigation}) => {
           headerStyle: {backgroundColor: '#1e272e'},
           headerTintColor: '#fff',
         }}>
-        {/* <Stack.Screen name="Camera" component={Test} /> */}
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="HomeScreen" component={HomeTabs} />
       </Stack.Navigator>

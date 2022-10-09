@@ -1,9 +1,11 @@
 //import liraries
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {NativeBaseProvider, Center, Image} from 'native-base';
 
 import image from '../assets/images/car.png';
+import LinearGradient from 'react-native-linear-gradient';
+import CarService from '../services/CarService';
 
 // create a component
 const Cars = ({navigation}) => {
@@ -14,11 +16,43 @@ const Cars = ({navigation}) => {
     {reg_no: 'PB-5953', brand: 'Suzuki', details: 'asassasasasas'},
     {reg_no: 'PB-5954', brand: 'Toyota', details: 'asassasasasas'},
   ]);
+
+  const [carList, setCarList] = useState([]);
+  const [brand, setBrand] = useState('');
+
+  useEffect(() => {
+    console.log('Carssss');
+    getAllCars();
+  }, []);
+
+  const getAllCars = async () => {
+    let res = await CarService.getAll();
+    if (res.status === 200) {
+      try {
+        console.log('---------res.data---------');
+        console.log(res.data);
+        if (res.data.length != 0) {
+          setCarList(res.data);
+          setBrand(
+            res.data[0].details
+              .split('color:')[0]
+              .split('brand:')[1]
+              .split(',')[0],
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.error(res.response.data.message);
+    }
+  };
+
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
         <FlatList
-          data={vehicles}
+          data={carList}
           renderItem={({item}) => (
             <TouchableOpacity
               style={{
@@ -38,8 +72,17 @@ const Cars = ({navigation}) => {
                 elevation: 8,
               }}
               onPress={() => {
+                console.log('===================item=================');
+                console.log(item);
+                console.log('====================================');
                 navigation.navigate('Manage', {obj: item});
               }}>
+              {/* <LinearGradient
+                colors={['#2c3e50', '#34495e', '#2c3e50']}
+                start={{x: 0, y: 0}}
+                end={{x: 0, y: 0.3}}
+                style={{borderRadius: 10}}
+              > */}
               <View style={styles.card_container}>
                 <View style={styles.card_img}>
                   <Center>
@@ -66,9 +109,10 @@ const Cars = ({navigation}) => {
                     </Text>
                   </View>
 
-                  <Text style={styles.card_brand}>{item.brand}</Text>
+                  <Text style={styles.card_brand}>{brand}</Text>
                 </View>
               </View>
+              {/* </LinearGradient> */}
             </TouchableOpacity>
           )}
         />
