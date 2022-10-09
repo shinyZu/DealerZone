@@ -1,4 +1,3 @@
-//import liraries
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {NativeBaseProvider, Center, Image} from 'native-base';
@@ -7,42 +6,37 @@ import image from '../assets/images/car.png';
 import LinearGradient from 'react-native-linear-gradient';
 import CarService from '../services/CarService';
 
-// create a component
 const Cars = ({navigation}) => {
-  const [img, setImg] = useState(image);
-  const [vehicles, setVehicles] = useState([
-    {reg_no: 'PB-5951', brand: 'Suzuki', details: 'asassasasasas'},
-    {reg_no: 'PB-5952', brand: 'Toyota', details: 'asassasasasas'},
-    {reg_no: 'PB-5953', brand: 'Suzuki', details: 'asassasasasas'},
-    {reg_no: 'PB-5954', brand: 'Toyota', details: 'asassasasasas'},
-  ]);
-
   const [carList, setCarList] = useState([]);
-  const [brand, setBrand] = useState('');
+  const baseURL = 'http://192.168.1.3:4000/dealer_zone/api/v1/car/file/';
 
   useEffect(() => {
-    console.log('Carssss');
     getAllCars();
-  }, []);
+  });
 
   const getAllCars = async () => {
     let res = await CarService.getAll();
     if (res.status === 200) {
       try {
-        console.log('---------res.data---------');
-        console.log(res.data);
         if (res.data.length != 0) {
+          console.log(res.data);
           setCarList(res.data);
-          setBrand(
-            res.data[0].details
-              .split('color:')[0]
-              .split('brand:')[1]
-              .split(',')[0],
-          );
         }
       } catch (error) {
         console.error(error);
       }
+    } else {
+      console.error(res.response.data.message);
+    }
+  };
+
+  const getCarImage = async filename => {
+    let res = await CarService.getCarImage(filename);
+    if (res.status === 200) {
+      try {
+        console.log(res);
+        setImg(res);
+      } catch (error) {}
     } else {
       console.error(res.response.data.message);
     }
@@ -57,7 +51,7 @@ const Cars = ({navigation}) => {
             <TouchableOpacity
               style={{
                 borderRadius: 10,
-                marginBottom: '5%',
+                marginBottom: '3%',
                 padding: 3,
                 // borderWidth: 1,
                 // backgroundColor: '#2c3e50',
@@ -67,14 +61,12 @@ const Cars = ({navigation}) => {
                 //   width: 15,
                 //   height: 15,
                 // },
-                // shadowOpacity: 0.8,
-                // shadowRadius: 15,
-                elevation: 8,
+                shadowOpacity: 0.8,
+                shadowRadius: 15,
+                elevation: 5,
               }}
               onPress={() => {
-                console.log('===================item=================');
                 console.log(item);
-                console.log('====================================');
                 navigation.navigate('Manage', {obj: item});
               }}>
               {/* <LinearGradient
@@ -88,7 +80,9 @@ const Cars = ({navigation}) => {
                   <Center>
                     <Image
                       style={{borderRadius: 10}}
-                      source={img}
+                      source={{
+                        uri: baseURL + item.image.split('file/')[1],
+                      }}
                       alt="car"
                       size="lg"
                       mt={3}
@@ -109,7 +103,10 @@ const Cars = ({navigation}) => {
                     </Text>
                   </View>
 
-                  <Text style={styles.card_brand}>{brand}</Text>
+                  <Text style={styles.card_brand}>
+                    {/* {item.details.split('brand:')[1].split(',')[0].trim()} */}
+                    {item.brand}
+                  </Text>
                 </View>
               </View>
               {/* </LinearGradient> */}
@@ -121,7 +118,6 @@ const Cars = ({navigation}) => {
   );
 };
 
-// define your styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

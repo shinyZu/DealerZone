@@ -27,13 +27,13 @@ import {
 } from 'react-native-image-picker';
 
 import image from '../assets/images/car.png';
+import CarService from '../services/CarService';
+// import url from 'url';
+var url = require('url');
 
-// create a component
 const CarForm = props => {
   const windowHeight = useWindowDimensions().height;
   const [regNo, setRegNo] = useState('TT-5951');
-  const [img, setImg] = useState(image);
-  const [details, setDetails] = useState(props.data);
 
   const [fileUri, setFileUri] = useState('');
 
@@ -42,50 +42,40 @@ const CarForm = props => {
   const [fuelType, setFuelType] = useState('');
   const [mileage, setMileage] = useState('');
 
+  const [imgUri, setImgUri] = useState(
+    'https://letusstudy.in/clientside/images/no-image.png',
+  );
+
+  const [imgResponse, setImgResponse] = useState(null);
+
+  const baseURL = 'http://192.168.1.3:4000/dealer_zone/api/v1/car/file/';
+
   useEffect(() => {
-    console.log('Car Formmmmmmm');
     if (props.btnTitle === 'Save Car') {
       console.log('Save Car');
-      // console.log(details);
-      // console.log(props.data);
     } else if (props.btnTitle === 'Update') {
       console.log('Update Car');
-      // console.log(details);
-      // console.log(props.data);
       if (props.data) {
-        // console.log(details != null);
         setCarDetails(props.data);
+        // setImgUri(baseURL + props.data.image.split('file/')[1]);
       }
     }
-
-    // if (props.btnTitle === 'Update' && props.data.length != 0) {
-    //   console.log('Update Car  && []');
-    //   console.log(props.data.length == 0);
-    //   const data = props.data;
-    //   console.log('==============data======================');
-    //   console.log(data);
-    //   console.log('====================================');
-
-    //   if (props.data.length != 0) {
-    //     setCarDetails(props.data);
-    //   }
-    // }
-
-    // if (props.btnTitle === 'Save Car' && props.data === null) {
-    //   console.log('Save Car  && null');
-    //   console.log(props.data === null);
-    // }
-  }, [regNo]);
+  });
 
   const setCarDetails = data => {
-    // console.log(details);
-    setRegNo(data.reg_no);
-    // setDetails(data.details);
-    // clearDetails();
-    setBrand(data.details.split('brand:')[1].split(',')[0].trim());
-    setColor(data.details.split('color:')[1].split(',')[0]);
-    setFuelType(data.details.split('fuel:')[1].split(',')[0]);
-    setMileage(data.details.split('mileage:')[1].split(',')[0]);
+    // setRegNo(props.data.reg_no);
+    // setBrand(data.details.split('brand:')[1].split(',')[0].trim());
+    // setColor(data.details.split('color:')[1].split(',')[0]);
+    // setFuelType(data.details.split('fuel:')[1].split(',')[0]);
+    // setMileage(data.details.split('mileage:')[1].split(',')[0]);
+    // setImgUri(baseURL + props.data.image.split('file/')[1]);
+
+    setRegNo(props.data.reg_no);
+    setBrand(props.data.brand);
+    setColor(props.data.color);
+    setFuelType(props.data.fuel);
+    setMileage(props.data.mileage);
+    setImgUri(baseURL + props.data.image.split('file/')[1]);
   };
 
   const clearDetails = () => {
@@ -94,6 +84,82 @@ const CarForm = props => {
     setColor('');
     setFuelType('');
     setMileage('');
+  };
+
+  const updateCar = async () => {
+    if (imgUri.split(':')[0] === 'http') {
+      console.log('matches');
+      setFileUri(null);
+    } else {
+      console.log('doesnt match');
+      setFileUri(imgUri);
+    }
+
+    // let data = {
+    //   reg_no: regNo,
+    //   image: fileUri,
+    //   details: 'Updated',
+    // };
+
+    // let formData = new FormData();
+    // formData.append('reg_no', regNo);
+    // formData.append('image', {
+    //   uri: fileUri,
+    //   type: 'image/jpeg',
+    //   name: 'imagename.jpg',
+    // });
+    // formData.append('details', 'updated');
+    // formData.append(
+    //   'details',
+    //   `brand: ${brand}, color: ${color}, fuel: ${fuelType}, mileage: ${mileage}`,
+    // );
+
+    // console.log(formData);
+    // // console.log(JSON.stringify(formData));
+    // let res = await CarService.updateCar(props.data._id, formData);
+    // if (res.status === 200) {
+    //   try {
+    //     console.log(res);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // } else {
+    //   console.error(res.response);
+    // }
+  };
+
+  const saveCar = async () => {
+    console.log('to save');
+
+    // console.log(imgResponse);
+
+    let file = {
+      uri: imgResponse.assets[0].uri,
+      type: imgResponse.assets[0].type,
+      name: imgResponse.assets[0].fileName,
+    };
+
+    console.log(file);
+
+    const formData = new FormData();
+    formData.append('reg_no', regNo);
+    formData.append('image', file);
+    formData.append('brand', brand);
+    formData.append('color', color);
+    formData.append('fuel', fuelType);
+    formData.append('mileage', mileage);
+    console.log(formData);
+
+    let res = await CarService.saveCar(formData);
+    if (res.status === 201) {
+      try {
+        console.log(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.error(res.response);
+    }
   };
 
   const openCamera = () => {
@@ -137,17 +203,22 @@ const CarForm = props => {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
+        // console.log(response);
+        // console.log(options);
+        setImgResponse(response);
         setFileUri(response.assets[0].uri);
+        setImgUri(response.assets[0].uri);
       }
     });
   };
 
   const renderFileUri = () => {
-    if (fileUri) {
+    if (imgUri) {
       return (
         <Image
           style={{borderRadius: 10}}
-          source={{uri: fileUri}}
+          // source={{uri: fileUri}}
+          source={{uri: imgUri}}
           alt="car"
           size="200"
           mb={3}
@@ -195,6 +266,11 @@ const CarForm = props => {
               backgroundColor="#1e272e"
               borderWidth="0"
               color="#fff"
+              value={regNo}
+              onChangeText={no => {
+                console.log(no);
+                setRegNo(no);
+              }}
             />
           )}
         </View>
@@ -203,7 +279,7 @@ const CarForm = props => {
           {props.btnTitle == 'Update' ? (
             <Image
               style={{borderRadius: 10}}
-              source={require('../assets/images/car.png')}
+              source={{uri: imgUri}}
               alt="car"
               size="200"
               mb={3}
@@ -211,6 +287,7 @@ const CarForm = props => {
           ) : (
             renderFileUri()
           )}
+          {/* {renderFileUri()} */}
           <View style={styles.btn_container}>
             <TouchableOpacity
               onPress={launchGallery}
@@ -241,26 +318,6 @@ const CarForm = props => {
           </View>
         </View>
 
-        {/* <View style={styles.detail_container}>
-          <TextArea
-            h={40}
-            placeholder="Enter Details"
-            placeholderTextColor="#ccc"
-            w="72%"
-            maxW="300"
-            color="#fff">
-            {props.btnTitle === 'Update' ? (
-              <>
-                <Text>brand : {brand + '\n'}</Text>
-                <Text>color : {color + '\n'}</Text>
-                <Text>fuel type : {fuelType + '\n'}</Text>
-                <Text>mileage : {mileage + '\n'}</Text>
-              </>
-            ) : (
-              ''
-            )}
-          </TextArea>
-        </View> */}
         <View style={styles.detail_container}>
           <View
             style={{
@@ -391,7 +448,6 @@ const CarForm = props => {
             <View
               style={{
                 flex: 6,
-                // backgroundColor: 'yellow',
                 alignItems: 'flex-end',
               }}>
               <TouchableOpacity style={styles.btn_delete}>
@@ -407,10 +463,9 @@ const CarForm = props => {
             <View
               style={{
                 flex: 6,
-                // backgroundColor: 'brown',
                 alignItems: 'flex-end',
               }}>
-              <TouchableOpacity style={styles.btn_update}>
+              <TouchableOpacity style={styles.btn_update} onPress={updateCar}>
                 <LinearGradient
                   colors={['#16a085', '#00b894', '#16a085']}
                   start={{x: 0, y: 0.1}}
@@ -423,7 +478,7 @@ const CarForm = props => {
           </View>
         ) : (
           <View style={styles.btn_container_save}>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity style={styles.btn} onPress={saveCar}>
               <LinearGradient
                 colors={['#16a085', '#00b894', '#16a085']}
                 start={{x: 0, y: 0.1}}
@@ -439,7 +494,6 @@ const CarForm = props => {
   );
 };
 
-// define your styles
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: 'red',
@@ -546,5 +600,4 @@ const styles = StyleSheet.create({
   },
 });
 
-//make this component available to the app
 export default CarForm;

@@ -14,7 +14,22 @@ const carSchema = new mongoose.Schema({
     required: true,
   },
 
-  details: {
+  brand: {
+    type: String,
+    required: true,
+  },
+
+  color: {
+    type: String,
+    required: true,
+  },
+
+  fuel: {
+    type: String,
+    required: true,
+  },
+
+  mileage: {
     type: String,
     required: true,
   },

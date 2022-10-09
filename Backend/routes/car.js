@@ -10,6 +10,8 @@ const { conn } = require("../db.configs/db");
 
 const Car = require("../models/car.models");
 
+const baseURL = "http://192.168.1.3:4000/file/";
+
 conn.once("open", () => {
   gridfsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
     bucketName: "assets",
@@ -62,23 +64,30 @@ router.get("/file/:filename", async (req, res) => {
 router.post("/", upload.single("image"), async (req, res) => {
   const body = req.body;
   // console.log(req.file);
-  // console.log(body);
-  // console.log(req.file);
+  console.log(body);
+  console.log(req.file);
+  // res.status(201).json({ message: "Car Details Saved Successfully!!!" });
 
   let car;
 
   if (req.file) {
-    const imgUrl = `http://localhost:4000/file/${req.file.filename}`;
+    const imgUrl = baseURL + `${req.file.filename}`;
     car = new Car({
       reg_no: body.reg_no,
       image: imgUrl,
-      details: body.details,
+      brand: body.brand,
+      color: body.color,
+      fuel: body.fuel,
+      mileage: body.mileage,
     });
   } else {
     car = new Car({
       reg_no: body.reg_no,
       image: "null",
-      details: body.details,
+      brand: body.brand,
+      color: body.color,
+      fuel: body.fuel,
+      mileage: body.mileage,
     });
   }
 
@@ -94,8 +103,8 @@ router.post("/", upload.single("image"), async (req, res) => {
 
 router.put("/:id", upload.single("image"), async (req, res) => {
   const body = req.body;
-  // console.log(body);
-  // console.log(req.file);
+  console.log(body);
+  console.log(req.file);
 
   Car.findById(req.params.id, (err1, carDetails) => {
     if (err1) {
@@ -106,14 +115,20 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     }
 
     if (req.file) {
-      const imgUrl = `http://localhost:4000/file/${req.file.filename}`;
+      const imgUrl = baseURL + `${req.file.filename}`;
       carDetails.headline = body.headline;
       carDetails.image = imgUrl;
-      carDetails.details = body.details;
+      carDetails.brand = body.brand;
+      carDetails.color = body.color;
+      carDetails.fuel = body.fuel;
+      carDetails.mileage = body.mileage;
     } else {
       carDetails.headline = body.headline;
       carDetails.image = "null";
-      carDetails.details = body.details;
+      carDetails.brand = body.brand;
+      carDetails.color = body.color;
+      carDetails.fuel = body.fuel;
+      carDetails.mileage = body.mileage;
     }
 
     carDetails.save((err2, result) => {
