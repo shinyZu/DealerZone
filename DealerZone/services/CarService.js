@@ -29,19 +29,16 @@ class CarService {
     return await promise;
   };
 
-  saveCar = async data => {
+  saveCar = async formData => {
     const promise = new Promise((resolve, reject) => {
       axios
-        .post('car', data, {
+        .post('car', formData, {
           headers: {
             // Accept: 'application/json',
             'Content-Type': 'multipart/form-data',
           },
         })
         .then(res => {
-          console.log('====================================');
-          console.log(res.data);
-          console.log('====================================');
           return resolve(res);
         })
         .catch(er => {
@@ -59,9 +56,7 @@ class CarService {
           formData,
           {
             headers: {
-              // Accept: 'application/json',
               'Content-Type': 'multipart/form-data',
-              // Authorization: 'Basic YnJva2VyOmJyb2tlcl8xMjM=',
             },
           },
           {

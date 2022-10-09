@@ -1,4 +1,3 @@
-//import liraries
 import React, {Component, useState} from 'react';
 import {
   View,
@@ -22,8 +21,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Avatar from '../assets/images/avatar2.jpg';
 import LoginService from '../services/LoginService';
+import UserService from '../services/UserService';
 
-// create a component
 const Login = ({navigation}) => {
   const windowHeight = useWindowDimensions().height;
   const [nicNo, setNicNo] = useState('');
@@ -55,11 +54,7 @@ const Login = ({navigation}) => {
       <Button
         onPress={() => setIsOpenTop(!isOpenTop)}
         variant="unstyled"
-        bg="coolGray.700:alpha.30"
-        // _text={{
-        //   color: useColorModeValue('darkText', 'lightText'),
-        // }}
-      >
+        bg="coolGray.700:alpha.30">
         {str}
       </Button>
     </Center>
@@ -70,11 +65,9 @@ const Login = ({navigation}) => {
       email: email,
       password: password,
     };
-    console.log(loginForm);
+    // console.log(loginForm);
 
-    // let res = await LoginService.getAll();
     let res = await LoginService.loginUser(loginForm);
-    console.log('3');
     if (res.status === 200) {
       try {
         // console.log(res.data);
@@ -86,44 +79,32 @@ const Login = ({navigation}) => {
     } else {
       console.error(res.response.data.message);
     }
-
-    // navigation.navigate('HomeScreen');
   };
 
-  // const loginUser = async () => {
-  //   var formData = new FormData();
-  //   formData.append('email', email);
-  //   formData.append('password', password);
-  //   // console.log(formData._parts);
-
-  //   console.log('1');
-  //   let res = await fetch('http://192.168.1.2:4000/dealer_zone/api/v1/test', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     // body: JSON.stringify({
-  //     //   email: email,
-  //     //   password: password,
-  //     // }),
-  //     body: formData,
-  //   })
-  //     .then(response => {
-  //       console.log('2');
-  //       console.log(response.json());
-  //     })
-  //     .catch(err => {
-  //       console.log('3');
-  //       console.error(err);
-  //     });
-
-  //   console.log(res);
-  // };
-
-  const registerUser = () => {
+  const registerUser = async () => {
     console.log('registered');
-    navigation.navigate('HomeScreen');
+    let formData = {
+      nic_no: nicNo,
+      email: email,
+      password: password,
+      contact_no: contactNo,
+    };
+    console.log(formData);
+
+    let res = await UserService.registerUser(formData);
+    if (res.status === 201) {
+      try {
+        console.log(res.data);
+        setIsOpenTop(!isOpenTop);
+        navigation.navigate('HomeScreen');
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.error(res.response.data.message);
+    }
+
+    // navigation.navigate('HomeScreen');
   };
 
   return (

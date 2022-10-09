@@ -1,10 +1,10 @@
 import axios from '../axios';
 
 class UserService {
-  registerUser = async data => {
+  registerUser = async formData => {
     const promise = new Promise((resolve, reject) => {
       axios
-        .post('category', data)
+        .post('user', formData)
         .then(res => {
           return resolve(res);
         })

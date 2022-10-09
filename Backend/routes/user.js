@@ -50,9 +50,12 @@ router.post("/", async (req, res) => {
       } else if (err.keyPattern.nic_no == 1) {
         return res.status(404).json({ message: "Duplicate NIC No!" });
       } else if (!result) {
-        return res
-          .status(404)
-          .json({ message: "Couldn't save the User. Please Try Again!" });
+        return (
+          res
+            .status(404)
+            // .json({ message: "Couldn't save the User. Please Try Again!" });
+            .json({ message: "Invalid Password. Please Try Again!" })
+        );
       } else if (result) {
         res.json(result);
       }

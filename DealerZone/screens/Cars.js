@@ -8,10 +8,14 @@ import CarService from '../services/CarService';
 
 const Cars = ({navigation}) => {
   const [carList, setCarList] = useState([]);
+  const [imgUri, setImgUri] = useState(
+    'https://letusstudy.in/clientside/images/no-image.png',
+  );
   const baseURL = 'http://192.168.1.3:4000/dealer_zone/api/v1/car/file/';
 
   useEffect(() => {
     getAllCars();
+    // loadImage();
   });
 
   const getAllCars = async () => {
@@ -19,7 +23,7 @@ const Cars = ({navigation}) => {
     if (res.status === 200) {
       try {
         if (res.data.length != 0) {
-          console.log(res.data);
+          // console.log(res.data);
           setCarList(res.data);
         }
       } catch (error) {
@@ -66,7 +70,7 @@ const Cars = ({navigation}) => {
                 elevation: 5,
               }}
               onPress={() => {
-                console.log(item);
+                // console.log(item);
                 navigation.navigate('Manage', {obj: item});
               }}>
               {/* <LinearGradient
@@ -80,9 +84,15 @@ const Cars = ({navigation}) => {
                   <Center>
                     <Image
                       style={{borderRadius: 10}}
-                      source={{
-                        uri: baseURL + item.image.split('file/')[1],
-                      }}
+                      source={
+                        item.image == 'null'
+                          ? {
+                              uri: 'https://letusstudy.in/clientside/images/no-image.png',
+                            }
+                          : {
+                              uri: baseURL + item.image.split('file/')[1],
+                            }
+                      }
                       alt="car"
                       size="lg"
                       mt={3}

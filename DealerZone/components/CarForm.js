@@ -28,12 +28,10 @@ import {
 
 import image from '../assets/images/car.png';
 import CarService from '../services/CarService';
-// import url from 'url';
-var url = require('url');
 
-const CarForm = props => {
+const CarForm = (props, {navigation}) => {
   const windowHeight = useWindowDimensions().height;
-  const [regNo, setRegNo] = useState('TT-5951');
+  const [regNo, setRegNo] = useState('NO-0000');
 
   const [fileUri, setFileUri] = useState('');
 
@@ -52,94 +50,52 @@ const CarForm = props => {
 
   useEffect(() => {
     if (props.btnTitle === 'Save Car') {
-      console.log('Save Car');
+      // console.log('Save Car');
     } else if (props.btnTitle === 'Update') {
-      console.log('Update Car');
+      // console.log('Update Car');
       if (props.data) {
         setCarDetails(props.data);
-        // setImgUri(baseURL + props.data.image.split('file/')[1]);
       }
     }
-  });
+  }, [props.data]);
 
   const setCarDetails = data => {
-    // setRegNo(props.data.reg_no);
-    // setBrand(data.details.split('brand:')[1].split(',')[0].trim());
-    // setColor(data.details.split('color:')[1].split(',')[0]);
-    // setFuelType(data.details.split('fuel:')[1].split(',')[0]);
-    // setMileage(data.details.split('mileage:')[1].split(',')[0]);
-    // setImgUri(baseURL + props.data.image.split('file/')[1]);
-
     setRegNo(props.data.reg_no);
     setBrand(props.data.brand);
     setColor(props.data.color);
     setFuelType(props.data.fuel);
     setMileage(props.data.mileage);
-    setImgUri(baseURL + props.data.image.split('file/')[1]);
+    if (props.data.image == 'null') {
+      setImgUri('https://letusstudy.in/clientside/images/no-image.png');
+    } else {
+      setImgUri(baseURL + props.data.image.split('file/')[1]);
+    }
   };
 
-  const clearDetails = () => {
-    setRegNo('reg-no');
+  const clearForm = () => {
+    setRegNo('NO-0000');
     setBrand('');
     setColor('');
     setFuelType('');
     setMileage('');
+    setImgUri('https://letusstudy.in/clientside/images/no-image.png');
   };
 
   const updateCar = async () => {
-    if (imgUri.split(':')[0] === 'http') {
-      console.log('matches');
-      setFileUri(null);
+    let file;
+    if (imgResponse == null) {
+      file = {
+        uri: imgUri,
+        type: 'image/jpeg/jpg',
+        name: brand,
+      };
     } else {
-      console.log('doesnt match');
-      setFileUri(imgUri);
+      file = {
+        uri: imgResponse.assets[0].uri,
+        type: imgResponse.assets[0].type,
+        name: imgResponse.assets[0].fileName,
+      };
     }
-
-    // let data = {
-    //   reg_no: regNo,
-    //   image: fileUri,
-    //   details: 'Updated',
-    // };
-
-    // let formData = new FormData();
-    // formData.append('reg_no', regNo);
-    // formData.append('image', {
-    //   uri: fileUri,
-    //   type: 'image/jpeg',
-    //   name: 'imagename.jpg',
-    // });
-    // formData.append('details', 'updated');
-    // formData.append(
-    //   'details',
-    //   `brand: ${brand}, color: ${color}, fuel: ${fuelType}, mileage: ${mileage}`,
-    // );
-
-    // console.log(formData);
-    // // console.log(JSON.stringify(formData));
-    // let res = await CarService.updateCar(props.data._id, formData);
-    // if (res.status === 200) {
-    //   try {
-    //     console.log(res);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // } else {
-    //   console.error(res.response);
-    // }
-  };
-
-  const saveCar = async () => {
-    console.log('to save');
-
-    // console.log(imgResponse);
-
-    let file = {
-      uri: imgResponse.assets[0].uri,
-      type: imgResponse.assets[0].type,
-      name: imgResponse.assets[0].fileName,
-    };
-
-    console.log(file);
 
     const formData = new FormData();
     formData.append('reg_no', regNo);
@@ -148,12 +104,46 @@ const CarForm = props => {
     formData.append('color', color);
     formData.append('fuel', fuelType);
     formData.append('mileage', mileage);
-    console.log(formData);
+
+    let res = await CarService.updateCar(props.data._id, formData);
+    if (res.status === 200) {
+      try {
+        // console.log(res);
+        // navigation.navigate('Cars');
+        clearForm();
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.error(res.response);
+    }
+  };
+
+  const saveCar = async () => {
+    console.log('to save');
+
+    let file = {
+      uri: imgResponse.assets[0].uri,
+      type: imgResponse.assets[0].type,
+      name: imgResponse.assets[0].fileName,
+    };
+
+    // console.log(file);
+
+    const formData = new FormData();
+    formData.append('reg_no', regNo);
+    formData.append('image', file);
+    formData.append('brand', brand);
+    formData.append('color', color);
+    formData.append('fuel', fuelType);
+    formData.append('mileage', mileage);
+    // console.log(formData);
 
     let res = await CarService.saveCar(formData);
     if (res.status === 201) {
       try {
-        console.log(res.data);
+        // console.log(res.data);
+        clearForm();
       } catch (error) {
         console.error(error);
       }
@@ -182,7 +172,9 @@ const CarForm = props => {
         // const source = {uri: response.assets[0].uri};
         // console.log(source);
         // image from camera --> "file:///data/user/0/com.dealerzone/cache/rn_image_picker_lib_temp_9d171869-e3f0-47cc-b7ba-584b2481cef6.jpg"
+        setImgResponse(response);
         setFileUri(response.assets[0].uri);
+        setImgUri(response.assets[0].uri);
       }
     });
   };
@@ -203,8 +195,6 @@ const CarForm = props => {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
-        // console.log(response);
-        // console.log(options);
         setImgResponse(response);
         setFileUri(response.assets[0].uri);
         setImgUri(response.assets[0].uri);
@@ -287,7 +277,6 @@ const CarForm = props => {
           ) : (
             renderFileUri()
           )}
-          {/* {renderFileUri()} */}
           <View style={styles.btn_container}>
             <TouchableOpacity
               onPress={launchGallery}
