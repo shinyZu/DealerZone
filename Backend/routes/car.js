@@ -9,6 +9,7 @@ const upload = require("../middleware/upload");
 const { conn } = require("../db.configs/db");
 
 const Car = require("../models/car.models");
+const User = require("../models/user.models");
 
 const baseURL = "http://192.168.1.3:4000/file/";
 
@@ -38,6 +39,30 @@ router.get("/:id", (req, res) => {
       return res.status(404).json({ message: "Car doesn't exist!" });
     }
     res.json(car);
+  });
+});
+
+router.get("/by_user/:id", (req, res) => {
+  User.findById(req.params.id, (err, user) => {
+    if (err) {
+      return res.status(500).send({ message: err });
+    }
+    if (!user) {
+      return res.status(404).json({ message: "User doesn't exist!" });
+    } else {
+      Car.find({ user_id: req.params.id }, (err, car) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        if (car.length != 0) {
+          console.log(car);
+          return res.status(200).json(car);
+        }
+        return res
+          .status(404)
+          .json({ message: "No account with the given Email!" });
+      });
+    }
   });
 });
 
@@ -79,6 +104,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       color: body.color,
       fuel: body.fuel,
       mileage: body.mileage,
+      user_id: body.user_id,
     });
   } else {
     car = new Car({
@@ -88,6 +114,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       color: body.color,
       fuel: body.fuel,
       mileage: body.mileage,
+      user_id: body.user_id,
     });
   }
 
@@ -122,6 +149,7 @@ router.put("/:id", upload.single("image"), async (req, res) => {
       carDetails.color = body.color;
       carDetails.fuel = body.fuel;
       carDetails.mileage = body.mileage;
+      carDetails.user_id = body.user_id;
     } else {
       carDetails.headline = body.headline;
       carDetails.image = "null";
@@ -129,6 +157,7 @@ router.put("/:id", upload.single("image"), async (req, res) => {
       carDetails.color = body.color;
       carDetails.fuel = body.fuel;
       carDetails.mileage = body.mileage;
+      carDetails.user_id = body.user_id;
     }
 
     carDetails.save((err2, result) => {

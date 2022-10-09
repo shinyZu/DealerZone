@@ -30,6 +30,8 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [contactNo, setContactNo] = useState('');
 
+  const [userId, setUserId] = useState('');
+
   const [isValid, setIsValid] = useState(true);
 
   const [title, setTitle] = useState('Login');
@@ -71,8 +73,10 @@ const Login = ({navigation}) => {
     if (res.status === 200) {
       try {
         // console.log(res.data);
+        setUserId(res.data);
         setIsOpenTop(!isOpenTop);
-        navigation.navigate('HomeScreen');
+        navigation.navigate('HomeScreen', {obj: res.data});
+        clearForm();
       } catch (error) {
         console.error(error);
       }
@@ -96,6 +100,7 @@ const Login = ({navigation}) => {
       try {
         console.log(res.data);
         setIsOpenTop(!isOpenTop);
+        clearForm();
         navigation.navigate('HomeScreen');
       } catch (error) {
         console.error(error);
@@ -103,8 +108,13 @@ const Login = ({navigation}) => {
     } else {
       console.error(res.response.data.message);
     }
+  };
 
-    // navigation.navigate('HomeScreen');
+  const clearForm = () => {
+    setNicNo('');
+    setEmail('');
+    setPassword('');
+    setContactNo('');
   };
 
   return (

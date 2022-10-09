@@ -23,8 +23,9 @@ router.post("/", cors(), async (req, res) => {
       return res.status(500).send(err);
     }
     if (user.length != 0) {
+      console.log(user[0]._id);
       if (user[0].email === email && user[0].password === password) {
-        return res.status(200).json({ message: "Success" });
+        return res.status(200).send(user[0]._id);
       } else {
         return res.status(404).json({ message: "Please check your Password!" });
       }

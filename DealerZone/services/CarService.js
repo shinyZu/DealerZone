@@ -15,6 +15,20 @@ class CarService {
     return await promise;
   };
 
+  getAllByUser = async id => {
+    const promise = new Promise((resolve, reject) => {
+      axios
+        .get('car/by_user/' + id)
+        .then(res => {
+          return resolve(res);
+        })
+        .catch(er => {
+          return resolve(er);
+        });
+    });
+    return await promise;
+  };
+
   getCarImage = async filename => {
     const promise = new Promise((resolve, reject) => {
       axios

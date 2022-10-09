@@ -6,13 +6,13 @@ import {useWindowDimensions, StyleSheet, View} from 'react-native';
 import CarForm from '../components/CarForm';
 
 // create a component
-const AddCarDetails = () => {
+const AddCarDetails = ({navigation, route}) => {
   const windowHeight = useWindowDimensions().height;
   return (
     <NativeBaseProvider>
       {/* <View style={styles.container}> */}
       <View style={[{minHeight: Math.round(windowHeight)}]}>
-        <CarForm btnTitle="Save Car" data={null} />
+        <CarForm btnTitle="Save Car" data={null} userId={route.params.userId} />
       </View>
     </NativeBaseProvider>
   );

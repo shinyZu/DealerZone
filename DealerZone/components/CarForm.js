@@ -50,25 +50,26 @@ const CarForm = (props, {navigation}) => {
 
   useEffect(() => {
     if (props.btnTitle === 'Save Car') {
-      // console.log('Save Car');
+      console.log('Save Car');
     } else if (props.btnTitle === 'Update') {
       // console.log('Update Car');
       if (props.data) {
-        setCarDetails(props.data);
+        // console.log(props.data);
+        setCarDetails(props.data.item);
       }
     }
   }, [props.data]);
 
   const setCarDetails = data => {
-    setRegNo(props.data.reg_no);
-    setBrand(props.data.brand);
-    setColor(props.data.color);
-    setFuelType(props.data.fuel);
-    setMileage(props.data.mileage);
+    setRegNo(props.data.item.reg_no);
+    setBrand(props.data.item.brand);
+    setColor(props.data.item.color);
+    setFuelType(props.data.item.fuel);
+    setMileage(props.data.item.mileage);
     if (props.data.image == 'null') {
       setImgUri('https://letusstudy.in/clientside/images/no-image.png');
     } else {
-      setImgUri(baseURL + props.data.image.split('file/')[1]);
+      setImgUri(baseURL + props.data.item.image.split('file/')[1]);
     }
   };
 
@@ -104,8 +105,9 @@ const CarForm = (props, {navigation}) => {
     formData.append('color', color);
     formData.append('fuel', fuelType);
     formData.append('mileage', mileage);
+    formData.append('user_id', props.data.item.user_id);
 
-    let res = await CarService.updateCar(props.data._id, formData);
+    let res = await CarService.updateCar(props.data.item._id, formData);
     if (res.status === 200) {
       try {
         // console.log(res);
@@ -137,6 +139,7 @@ const CarForm = (props, {navigation}) => {
     formData.append('color', color);
     formData.append('fuel', fuelType);
     formData.append('mileage', mileage);
+    formData.append('user_id', props.userId);
     // console.log(formData);
 
     let res = await CarService.saveCar(formData);

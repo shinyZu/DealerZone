@@ -6,7 +6,7 @@ import image from '../assets/images/car.png';
 import LinearGradient from 'react-native-linear-gradient';
 import CarService from '../services/CarService';
 
-const Cars = ({navigation}) => {
+const Cars = ({navigation, route}) => {
   const [carList, setCarList] = useState([]);
   const [imgUri, setImgUri] = useState(
     'https://letusstudy.in/clientside/images/no-image.png',
@@ -14,12 +14,18 @@ const Cars = ({navigation}) => {
   const baseURL = 'http://192.168.1.3:4000/dealer_zone/api/v1/car/file/';
 
   useEffect(() => {
+    // if (route.params) {
+    //   console.log('====================================');
+    //   console.log(route);
+    //   console.log(route.params.userId);
+    //   console.log('====================================');
+    // }
     getAllCars();
     // loadImage();
   });
 
   const getAllCars = async () => {
-    let res = await CarService.getAll();
+    let res = await CarService.getAllByUser(route.params.userId);
     if (res.status === 200) {
       try {
         if (res.data.length != 0) {
@@ -38,7 +44,7 @@ const Cars = ({navigation}) => {
     let res = await CarService.getCarImage(filename);
     if (res.status === 200) {
       try {
-        console.log(res);
+        // console.log(res);
         setImg(res);
       } catch (error) {}
     } else {
@@ -71,7 +77,9 @@ const Cars = ({navigation}) => {
               }}
               onPress={() => {
                 // console.log(item);
-                navigation.navigate('Manage', {obj: item});
+                navigation.navigate('Manage', {
+                  obj: {item: item, userId: route.params.userId},
+                });
               }}>
               {/* <LinearGradient
                 colors={['#2c3e50', '#34495e', '#2c3e50']}

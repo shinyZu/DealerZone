@@ -1,5 +1,5 @@
 //import liraries
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -17,7 +17,15 @@ import ManageCar from './screens/ManageCar';
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
-const HomeTabs = ({navigation}) => {
+const HomeTabs = ({navigation, route}) => {
+  // useEffect(() => {
+  //   if (route.params) {
+  //     console.log('====================================');
+  //     console.log(route);
+  //     console.log(route.params.obj);
+  //     console.log('====================================');
+  //   }
+  // });
   return (
     <Tab.Navigator
       // headderMode="float"
@@ -39,6 +47,7 @@ const HomeTabs = ({navigation}) => {
       <Tab.Screen
         name="Cars"
         component={Cars}
+        initialParams={{userId: route.params.obj}}
         options={{
           swipeEnabled: false,
           tabBarIcon: () => <Icon name={'directions-car'} size={25} />,
@@ -47,6 +56,7 @@ const HomeTabs = ({navigation}) => {
       <Tab.Screen
         name="Add"
         component={AddCarDetails}
+        initialParams={{userId: route.params.obj}}
         options={{
           swipeEnabled: false,
           tabBarIcon: () => <Icon name={'library-add'} size={25} />,
