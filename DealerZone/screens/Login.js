@@ -7,6 +7,7 @@ import {
   TextInput,
   Image,
   useWindowDimensions,
+  ImageBackground,
 } from 'react-native';
 import {
   Button,
@@ -22,6 +23,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Avatar from '../assets/images/avatar2.jpg';
 import LoginService from '../services/LoginService';
 import UserService from '../services/UserService';
+import home_bg from '../assets/images/black_car1.jpg';
+// import home_bg from '../assets/images/green_car1.png';
 
 const Login = ({navigation}) => {
   const windowHeight = useWindowDimensions().height;
@@ -119,134 +122,158 @@ const Login = ({navigation}) => {
 
   return (
     <NativeBaseProvider>
-      <View style={styles.main_container}>
-        <View style={[{minHeight: Math.round(windowHeight)}]}>
-          {/* Avatar */}
-          <View style={styles.avatar_container}>
-            <Image style={styles.avatar} source={Avatar} />
-          </View>
+      <ImageBackground source={home_bg} resizeMode="cover" style={styles.image}>
+        <View style={styles.main_container}>
+          <View style={[{minHeight: Math.round(windowHeight)}]}>
+            {/* Avatar */}
+            <View style={styles.avatar_container}>
+              <Image style={styles.avatar} source={Avatar} />
+            </View>
 
-          {/* Label */}
-          <View style={styles.label_container}>
-            <Text style={styles.label}>{title}</Text>
-          </View>
+            {/* Label */}
+            <View style={styles.label_container}>
+              <Text style={styles.label}>{title}</Text>
+            </View>
 
-          {/* Inputs */}
-          <VStack
-            space={title == 'Register' ? 4 : 8}
-            mt={title == 'Register' ? 0 : -20}
-            style={styles.input_container}>
-            {isVisible && (
+            {/* Inputs */}
+            <VStack
+              space={title == 'Register' ? 4 : 4}
+              mt={title == 'Register' ? 0 : -20}
+              style={styles.input_container}>
+              {isVisible && (
+                <FormControl isInvalid={!isValid} w="80%" maxW="300px">
+                  <Input
+                    placeholder="NIC No"
+                    style={{
+                      color: '#fff',
+                      backgroundColor: '#747d8ca1',
+                    }}
+                    variant="outlined"
+                    placeholderTextColor={'#fff'}
+                    value={nicNo}
+                    onChangeText={nic => {
+                      setNicNo(nic);
+                    }}
+                  />
+                  <FormControl.ErrorMessage>
+                    Invalid NIC No
+                  </FormControl.ErrorMessage>
+                </FormControl>
+              )}
               <FormControl isInvalid={!isValid} w="80%" maxW="300px">
                 <Input
-                  placeholder="NIC No"
-                  style={{color: '#fff'}}
-                  value={nicNo}
-                  onChangeText={nic => {
-                    setNicNo(nic);
+                  placeholder="Email"
+                  placeholderTextColor={'#fff'}
+                  style={{color: '#fff', backgroundColor: '#747d8ca1'}}
+                  variant="outlined"
+                  value={email}
+                  onChangeText={email => {
+                    setEmail(email);
                   }}
                 />
                 <FormControl.ErrorMessage>
-                  Invalid NIC No
+                  Invalid Email
                 </FormControl.ErrorMessage>
               </FormControl>
-            )}
-            <FormControl isInvalid={!isValid} w="80%" maxW="300px">
-              <Input
-                placeholder="Email"
-                style={{color: '#fff'}}
-                value={email}
-                onChangeText={email => {
-                  setEmail(email);
-                }}
-              />
-              <FormControl.ErrorMessage>Invalid Email</FormControl.ErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!isValid} w="80%" maxW="300px">
-              <Input
-                placeholder="Password"
-                type="password"
-                style={{color: '#fff'}}
-                value={password}
-                onChangeText={pwd => {
-                  setPassword(pwd);
-                }}
-              />
-              <FormControl.ErrorMessage>
-                Must have atleast 8 charaters, use only letters and numbers
-              </FormControl.ErrorMessage>
-            </FormControl>
-            {isVisible && (
               <FormControl isInvalid={!isValid} w="80%" maxW="300px">
                 <Input
-                  placeholder="Contact No"
-                  style={{color: '#fff'}}
-                  value={contactNo}
-                  onChangeText={contNo => {
-                    setContactNo(contNo);
+                  placeholder="Password"
+                  placeholderTextColor={'#fff'}
+                  type="password"
+                  style={{color: '#fff', backgroundColor: '#747d8ca1'}}
+                  variant="outlined"
+                  value={password}
+                  onChangeText={pwd => {
+                    setPassword(pwd);
                   }}
                 />
                 <FormControl.ErrorMessage>
-                  Invalid Contact
+                  Must have atleast 8 charaters, use only letters and numbers
                 </FormControl.ErrorMessage>
               </FormControl>
-            )}
-          </VStack>
+              {isVisible && (
+                <FormControl isInvalid={!isValid} w="80%" maxW="300px">
+                  <Input
+                    placeholder="Contact No"
+                    placeholderTextColor={'#fff'}
+                    style={{
+                      color: '#fff',
+                      backgroundColor: '#747d8ca1',
+                    }}
+                    variant="outlined"
+                    value={contactNo}
+                    onChangeText={contNo => {
+                      setContactNo(contNo);
+                    }}
+                  />
+                  <FormControl.ErrorMessage>
+                    Invalid Contact
+                  </FormControl.ErrorMessage>
+                </FormControl>
+              )}
+            </VStack>
 
-          {/* Buttons */}
-          <View style={styles.btn_container}>
-            {/* <TouchableOpacity
+            {/* Buttons */}
+            <View style={styles.btn_container}>
+              {/* <TouchableOpacity
               style={styles.btn_register}
               onPress={title === 'Login' ? loginUser : registerUser}>
               <Text style={styles.btn_label}>{btn1Label}</Text>
             </TouchableOpacity> */}
 
-            <TouchableOpacity
-              onPress={title === 'Login' ? loginUser : registerUser}
-              style={styles.btn_register}>
-              <LinearGradient
-                colors={['#1abc9c', '#00b894', '#16a085']}
-                start={{x: 0, y: 0.1}}
-                end={{x: 0, y: 0.5}}
-                style={styles.btn_reg_grad}>
-                <Text style={styles.btn_label}>{btn1Label}</Text>
-              </LinearGradient>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={title === 'Login' ? loginUser : registerUser}
+                style={styles.btn_register}>
+                <LinearGradient
+                  colors={['#1abc9c', '#00b894', '#16a085']}
+                  start={{x: 0, y: 0.1}}
+                  end={{x: 0, y: 0.5}}
+                  style={styles.btn_reg_grad}>
+                  <Text style={styles.btn_label}>{btn1Label}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
 
-            <Text style={styles.sub_text}>{subText}</Text>
-            <Button
-              size="sm"
-              variant="ghost"
-              colorScheme="green"
-              onPress={() => {
-                if (title === 'Login') {
-                  setTitle('Register');
-                  setBtn1Label('Register');
-                  setSubText('Already Registered?');
-                  setBtn2Label('Login');
-                  setIsVisible(true);
-                } else if (title === 'Register') {
-                  setTitle('Login');
-                  setBtn1Label('Login');
-                  setSubText('Not a Member?');
-                  setBtn2Label('Register');
-                  setIsVisible(false);
-                }
-              }}>
-              {btn2Label}
-            </Button>
+              <Text style={styles.sub_text}>{subText}</Text>
+              <Button
+                size="sm"
+                variant="ghost"
+                colorScheme="green"
+                onPress={() => {
+                  if (title === 'Login') {
+                    setTitle('Register');
+                    setBtn1Label('Register');
+                    setSubText('Already Registered?');
+                    setBtn2Label('Login');
+                    setIsVisible(true);
+                  } else if (title === 'Register') {
+                    setTitle('Login');
+                    setBtn1Label('Login');
+                    setSubText('Not a Member?');
+                    setBtn2Label('Register');
+                    setIsVisible(false);
+                  }
+                }}>
+                {btn2Label}
+              </Button>
+            </View>
           </View>
         </View>
-      </View>
+      </ImageBackground>
     </NativeBaseProvider>
   );
 };
 
 // define your styles
 const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    // opacity: 0.8,
+  },
+
   main_container: {
     flex: 1,
-    backgroundColor: '#1e272e',
+    // backgroundColor: '#1e272e',
   },
 
   avatar_container: {
@@ -270,13 +297,22 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    color: '#fff',
+    color: '#ecf0f1',
+    width: '80%',
+    // backgroundColor: '#16a085a3',
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderBottomColor: '#fff',
+    borderTopColor: '#fff',
+    padding: 15,
+    paddingVertical: 5,
     fontSize: 30,
+    textAlign: 'center',
   },
 
   input_container: {
     // backgroundColor: 'red',
-    color: '#fff',
+    // color: '#fff',
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',

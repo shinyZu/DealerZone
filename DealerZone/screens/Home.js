@@ -2,9 +2,9 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 
-// import home_bg from '../assets/images/black_car2.jpg';
+import home_bg from '../assets/images/black_car4.jpg';
 // import home_bg from '../assets/images/black_car3.jpeg';
-import home_bg from '../assets/images/green_car1.png';
+// import home_bg from '../assets/images/green_car1.png';
 // import home_bg from '../assets/images/green_car2.jpg';
 
 // create a component
@@ -12,7 +12,7 @@ const Dashboard = ({navigation}) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={home_bg} resizeMode="cover" style={styles.image}>
-        <Text style={styles.text}>Deal Like Never Before....</Text>
+        {/* <Text style={styles.text}>Deal Like Never Before....</Text> */}
       </ImageBackground>
     </View>
   );

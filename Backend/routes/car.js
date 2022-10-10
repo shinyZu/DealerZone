@@ -57,10 +57,9 @@ router.get("/by_user/:id", (req, res) => {
         if (car.length != 0) {
           console.log(car);
           return res.status(200).json(car);
+        } else {
+          return res.status(200).json({ message: "Empty List!" });
         }
-        return res
-          .status(404)
-          .json({ message: "No account with the given Email!" });
       });
     }
   });

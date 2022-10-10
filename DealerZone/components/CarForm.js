@@ -82,6 +82,40 @@ const CarForm = (props, {navigation}) => {
     setImgUri('https://letusstudy.in/clientside/images/no-image.png');
   };
 
+  const saveCar = async () => {
+    console.log('to save');
+
+    let file = {
+      uri: imgResponse.assets[0].uri,
+      type: imgResponse.assets[0].type,
+      name: imgResponse.assets[0].fileName,
+    };
+
+    // console.log(file);
+
+    const formData = new FormData();
+    formData.append('reg_no', regNo);
+    formData.append('image', file);
+    formData.append('brand', brand);
+    formData.append('color', color);
+    formData.append('fuel', fuelType);
+    formData.append('mileage', mileage);
+    formData.append('user_id', props.userId);
+    // console.log(formData);
+
+    let res = await CarService.saveCar(formData);
+    if (res.status === 201) {
+      try {
+        // console.log(res.data);
+        clearForm();
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.error(res.response);
+    }
+  };
+
   const updateCar = async () => {
     let file;
     if (imgResponse == null) {
@@ -121,31 +155,14 @@ const CarForm = (props, {navigation}) => {
     }
   };
 
-  const saveCar = async () => {
-    console.log('to save');
+  const deleteCar = async () => {
+    console.log('Deleted');
+    console.log(props.data.item._id);
 
-    let file = {
-      uri: imgResponse.assets[0].uri,
-      type: imgResponse.assets[0].type,
-      name: imgResponse.assets[0].fileName,
-    };
-
-    // console.log(file);
-
-    const formData = new FormData();
-    formData.append('reg_no', regNo);
-    formData.append('image', file);
-    formData.append('brand', brand);
-    formData.append('color', color);
-    formData.append('fuel', fuelType);
-    formData.append('mileage', mileage);
-    formData.append('user_id', props.userId);
-    // console.log(formData);
-
-    let res = await CarService.saveCar(formData);
-    if (res.status === 201) {
+    let res = await CarService.deleteCar(props.data.item._id);
+    if (res.status === 200) {
       try {
-        // console.log(res.data);
+        console.log(res);
         clearForm();
       } catch (error) {
         console.error(error);
@@ -442,7 +459,7 @@ const CarForm = (props, {navigation}) => {
                 flex: 6,
                 alignItems: 'flex-end',
               }}>
-              <TouchableOpacity style={styles.btn_delete}>
+              <TouchableOpacity style={styles.btn_delete} onPress={deleteCar}>
                 <LinearGradient
                   colors={['#c0392b', '#e74c3c', '#c0392b']}
                   start={{x: 0, y: 0.1}}

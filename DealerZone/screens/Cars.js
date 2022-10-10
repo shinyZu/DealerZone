@@ -1,10 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import {NativeBaseProvider, Center, Image} from 'native-base';
 
 import image from '../assets/images/car.png';
 import LinearGradient from 'react-native-linear-gradient';
 import CarService from '../services/CarService';
+import home_bg from '../assets/images/black_car2.jpg';
 
 const Cars = ({navigation, route}) => {
   const [carList, setCarList] = useState([]);
@@ -29,7 +37,7 @@ const Cars = ({navigation, route}) => {
     if (res.status === 200) {
       try {
         if (res.data.length != 0) {
-          // console.log(res.data);
+          console.log(res.data);
           setCarList(res.data);
         }
       } catch (error) {
@@ -54,24 +62,26 @@ const Cars = ({navigation, route}) => {
 
   return (
     <NativeBaseProvider>
+      {/* <ImageBackground source={home_bg} resizeMode="cover" style={styles.image}> */}
       <View style={styles.container}>
         <FlatList
           data={carList}
           renderItem={({item}) => (
             <TouchableOpacity
               style={{
-                borderRadius: 10,
+                borderRadius: 12,
+                borderColor: 'black',
                 marginBottom: '3%',
                 padding: 3,
                 // borderWidth: 1,
                 // backgroundColor: '#2c3e50',
                 // shadowColor: 'rgb(0, 0, 0)',
-                // shadowColor: '#fff',
+                // shadowColor: 'black',
                 // shadowOffset: {
                 //   width: 15,
                 //   height: 15,
                 // },
-                shadowOpacity: 0.8,
+                shadowOpacity: 0,
                 shadowRadius: 15,
                 elevation: 5,
               }}
@@ -132,11 +142,18 @@ const Cars = ({navigation, route}) => {
           )}
         />
       </View>
+      {/* </ImageBackground> */}
     </NativeBaseProvider>
   );
 };
 
 const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    justifyContent: 'center',
+    // opacity: 0.8,
+  },
+
   container: {
     flex: 1,
     justifyContent: 'center',
