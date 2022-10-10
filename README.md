@@ -15,9 +15,9 @@
 
 <br>
 
-<img src = "DealerZone/assets/images/screenshots/1_i.png" alt = "sample"> &emsp;
+<img src = "DealerZone/assets/images/screenshots/1_i.png" alt = "sample"> <br><br>
 <img src = "DealerZone/assets/images/screenshots/1_ii.png" alt = "sample"> <br><br>
-<img src = "DealerZone/assets/images/screenshots/2.png" alt = "sample"> &emsp;
+<img src = "DealerZone/assets/images/screenshots/2.png" alt = "sample"> <br><br>
 <img src = "DealerZone/assets/images/screenshots/3.png" alt = "sample"> <br><br>
-<img src = "DealerZone/assets/images/screenshots/4.png" alt = "sample"> &emsp;
-<img src = "DealerZone/assets/images/screenshots/5.png" alt = "sample"> &emsp;
+<img src = "DealerZone/assets/images/screenshots/4.png" alt = "sample"> <br><br>
+<img src = "DealerZone/assets/images/screenshots/5.png" alt = "sample"> <br><br>
